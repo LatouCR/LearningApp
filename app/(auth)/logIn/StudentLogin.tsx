@@ -9,6 +9,7 @@ import { LoginUserInput, loginUserSchema } from '@/lib/user-schema';
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 
+import { useToast } from "@/components/ui/use-toast"
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button"
@@ -22,8 +23,8 @@ import {
 import { Input } from "@/components/ui/input"
 
 
-
 export default function StudentForm() {
+    const { toast } = useToast();
     const router = useRouter();
     const [error, setError] = useState('');
     const [isPending, startTransition] = useTransition();
@@ -36,7 +37,6 @@ export default function StudentForm() {
     const {
         reset,
         handleSubmit,
-        register,
         formState: { errors },
     } = methods;
 
@@ -48,11 +48,18 @@ export default function StudentForm() {
             if (error?.message) {
                 setError(error.message);
                 console.log('Error message', error.message);
+                toast({
+                    title: "Error al iniciar sesion",
+                    variant: "destructive",
+                  })
                 reset({ password: '' });
                 return;
             }
 
             setError('');
+            toast({
+                title: "Inicio de sesion exitoso",
+              })
             router.push('/dashboard');
         });
     };
