@@ -1,6 +1,13 @@
-import Image from "next/image";
+import readUserSession from "@/lib/readUserSession";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+
+  const {data} = await readUserSession();
+  if(!data.session){
+    return redirect("/logIn")
+  }
+
   return (
     <main>
       <section className="flex w-screen h-screen">

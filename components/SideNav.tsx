@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { LayoutDashboard, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
 import { useRouter } from 'next/navigation';
-import { use, useEffect, useState } from 'react'
 
 const SideNav = () => {
     const router = useRouter();
@@ -74,7 +72,6 @@ const SideNav = () => {
                         </Link>
                     </li>
                     <li className="w-full p-2 hover:bg-hover">
-
                     </li>
 
                 </ul>

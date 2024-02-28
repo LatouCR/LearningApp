@@ -1,4 +1,4 @@
-import getUserSession from '@/lib/getUserSession';
+import readUserSession from '@/lib/readUserSession';
 import createSupabaseServerClient from '@/lib/supabase/server';
 import { LogOut } from 'lucide-react';
 
@@ -14,7 +14,7 @@ const CerrarSesion = async () => {
         await supabase.auth.signOut();
     };
 
-    const { data } = await getUserSession();
+    const { data } = await readUserSession();
     return (
         <div>
             <Button 
