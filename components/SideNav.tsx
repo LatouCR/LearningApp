@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { LayoutDashboard, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle} from 'lucide-react';
+import { LayoutDashboard, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle, LogOut} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from 'next/navigation';
 
@@ -72,6 +72,12 @@ const SideNav = () => {
                         </Link>
                     </li>
                     <li className="w-full p-2 hover:bg-hover">
+                    <Link href="/logIn" className="gap-2 inline-flex items-center">
+                            <LogOut size={24} />
+                            <h1 className="font-sm">
+                                Cerrar Sesion
+                            </h1>
+                        </Link>
                     </li>
 
                 </ul>
