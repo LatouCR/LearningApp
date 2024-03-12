@@ -109,6 +109,7 @@ export default function StudentForm() {
                                                 <FormLabel>Contraseña</FormLabel>
                                                 <FormControl>
                                                     <Input
+                                                        type='password'
                                                         className="bg-white border-b border-black border-none w-full"
                                                         placeholder="Password"
                                                         {...field}
