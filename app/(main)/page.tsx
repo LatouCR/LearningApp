@@ -1,11 +1,13 @@
-import readUserSession from "@/lib/readUserSession";
+import createSupabaseServerClient from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
 
-  const {data} = await readUserSession();
-  if(!data.session){
-    return redirect("/logIn")
+
+ const supabase = await createSupabaseServerClient();
+  const {data, error } = await supabase.auth.getUser()
+  if (error || !data?.user) {
+    redirect('/logIn')
   }
 
   return (
