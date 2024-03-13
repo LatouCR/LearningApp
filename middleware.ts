@@ -1,9 +1,7 @@
 import { updateSession } from '@/utils/middleware'
 import { NextRequest } from 'next/server'
-import readUserSession from "@/lib/readUserSession";
 
 export async function middleware(request: NextRequest) {
-  const data = await readUserSession()
   return await updateSession(request)
 }
 
