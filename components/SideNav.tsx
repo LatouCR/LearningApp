@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { LayoutDashboard, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle, LogOut} from 'lucide-react';
+import { LayoutDashboard, School, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle, LogOut} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from 'next/navigation';
 
@@ -23,6 +23,14 @@ const SideNav = () => {
 
             <nav className="flex flex-col flex-1">
                 <ul className="py-4 text-white  w-full">
+                    <li className="w-full p-2 hover:bg-hover">
+                        <Link href="/pag_institucion" className="gap-2 inline-flex items-center">
+                            <School size={24} />
+                            <h1 className="font-sm" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '140px' }}>
+                                Página de la Institución
+                            </h1>
+                        </Link>
+                    </li>
                     <li className="w-full p-2 hover:bg-hover">
                         <Link href="/dashboard" className="gap-2 inline-flex items-center">
                             <LayoutDashboard size={24} />
