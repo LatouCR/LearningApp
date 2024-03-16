@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from 'react';
 import Link from "next/link";
 import { LayoutDashboard, School, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle, LogOut} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -7,6 +8,7 @@ import { useRouter } from 'next/navigation';
 
 const SideNav = () => {
     const router = useRouter();
+    const [h1Text, setH1Text] = useState("Usuario Usuario");
 
     return (
         <aside className="flex-1 flex flex-col fixed top-0 left-0 h-screen w-[12.5rem] z-10 bg-background content-between">
@@ -91,15 +93,21 @@ const SideNav = () => {
                 </ul>
             </nav>
 
-
+            
             <div className="inline-flex items-center w-full mt-auto p-4">
-                <Avatar>
-                    <AvatarImage src="" />
-                    <AvatarFallback>GU</AvatarFallback>
-                </Avatar>
-                <div className="px-2 text-white">
-                    Usuario
-                </div>
+                <Link href="/usuario" className="gap-2 inline-flex items-center">
+                    <Avatar>
+                        <AvatarImage src="" />
+                        <AvatarFallback>
+                            {
+                                h1Text.split(' ').slice(0, 2).map(word => word[0]).join('')
+                            }
+                        </AvatarFallback>
+                    </Avatar>
+                    <h1 className="font-bold text-white" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '140px' }}>
+                        {h1Text}
+                    </h1>
+                </Link>
             </div>
 
         </aside>
