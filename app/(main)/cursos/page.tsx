@@ -20,7 +20,3 @@ export default function Page(): JSX.Element {
     </main>
   );
 }
-
-export const config = {
-  client: true,
-};
