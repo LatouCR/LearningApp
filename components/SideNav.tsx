@@ -95,7 +95,7 @@ const SideNav = () => {
 
             
             <div className="inline-flex items-center w-full mt-auto p-4">
-                <Link href="/usuario" className="gap-2 inline-flex items-center">
+                <Link href="/Usuario" className="gap-2 inline-flex items-center">
                     <Avatar>
                         <AvatarImage src="" />
                         <AvatarFallback>
@@ -115,4 +115,3 @@ const SideNav = () => {
 };
 
 export default SideNav;
-

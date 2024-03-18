@@ -1,13 +1,9 @@
 "use client"
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import useSupabaseClient from '@/lib/supabase/client';
-import readUserSession from '@/lib/readUserSession';
+
 
 export default function Page(): JSX.Element {
-  const supabase = useSupabaseClient();
-  const [role, setRole] = useState<string | null>(null);
  
   return (
     <main>
@@ -20,7 +16,3 @@ export default function Page(): JSX.Element {
     </main>
   );
 }
-
-export const config = {
-  client: true,
-};
