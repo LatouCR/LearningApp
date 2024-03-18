@@ -1,29 +1,25 @@
-import readUserSession from '@/lib/readUserSession';
 import createSupabaseServerClient from '@/lib/supabase/server';
 import { LogOut } from 'lucide-react';
-
+import { redirect } from 'next/navigation';
 import { Button } from "./ui/button";
 
-import React from 'react'
 
 const CerrarSesion = async () => {
-
-    const logoutAction = async () => {
-        'use server';
+    const logout = async () => {
+        "use server"
         const supabase = await createSupabaseServerClient();
         await supabase.auth.signOut();
+        return redirect("/");
     };
 
-    const { data } = await readUserSession();
     return (
-        <div>
+        <form action={logout}>
             <Button 
-            onClick={logoutAction}
-            >
-                <LogOut size={24} />
+                className=' bg-transparent hover:bg-transparent gap-2 inline-flex items-center p-2'>
+                <LogOut size={24}/>
                 Cerrar Sesion
-                </Button>
-        </div>
+            </Button>
+        </form>
     )
 }
 

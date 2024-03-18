@@ -55,7 +55,7 @@ export default async function StudentForm() {
                                 <div className="absolute z-10 h-full w-full bg-gradient-to-b from-transparent from-40% via-black/50 to-black/80"></div>
                             </CardHeader>
                             <CardContent
-                                className="px-4 py-2">
+                                className="px-4 py-2 overflow-hidden">
                                 <CardDescription>ICO2024-{curso.curso_id.toUpperCase().slice(0, 6)}G1</CardDescription>
                                 <CardTitle className="text-xl">{curso.nombreCurso}</CardTitle>
                             </CardContent>
@@ -66,9 +66,7 @@ export default async function StudentForm() {
                                 <div className=" inline-flex items-center gap-3">
                                     <p className="w-auto">Nombre del Profesor</p>
 
-                                    <TooltipProvider
-                                        className="ml-auto"
-                                    >
+                                    <TooltipProvider>
                                         <Tooltip>
                                             <TooltipTrigger asChild>
                                                 <Info

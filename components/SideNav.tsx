@@ -1,12 +1,9 @@
-"use client"
-
 import Link from "next/link";
-import { LayoutDashboard, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle, LogOut} from 'lucide-react';
+import CerrarSesion from "./CerrarSesion";
+import { LayoutDashboard, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle, LogOut } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useRouter } from 'next/navigation';
 
 const SideNav = () => {
-    const router = useRouter();
 
     return (
         <aside className="flex-1 flex flex-col fixed top-0 left-0 h-screen w-[12.5rem] z-10 bg-background content-between">
@@ -71,13 +68,8 @@ const SideNav = () => {
                             </h1>
                         </Link>
                     </li>
-                    <li className="w-full p-2 hover:bg-hover">
-                    <Link href="/logIn" className="gap-2 inline-flex items-center">
-                            <LogOut size={24} />
-                            <h1 className="font-sm">
-                                Cerrar Sesion
-                            </h1>
-                        </Link>
+                    <li className="w-full py-1 hover:bg-hover">
+                        <CerrarSesion/>    
                     </li>
 
                 </ul>

@@ -78,6 +78,7 @@ const config = {
       },
       backgroundImage: {
         "login-background": "url('https://aadcdn.msauthimages.net/dbd5a2dd-pdspkp48tskabfsz5b-zcmzvckjpojrim6xhub1scq4/logintenantbranding/0/illustration?ts=638060431143431238')",
+        "logo-blanco": "url('https://canvas.ulacit.ac.cr/wp-content/uploads/2023/03/Logo-ULACIT_blanco.png)",
       }
     },
   },

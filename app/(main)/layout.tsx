@@ -25,7 +25,7 @@ export default function RootLayout({
               <SideNav />
             </div>
           </div>
-          <div className="flex flex-col flex-1 overflow-y-auto">
+          <div className="flex flex-col flex-1 overflow-y-auto bg-slate-100">
             <div className="flex flex-col flex-1">
             {children}
             </div>
