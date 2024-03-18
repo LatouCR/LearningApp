@@ -10,10 +10,9 @@ export default function Page() {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUserInfo({ ...userInfo, [event.target.name]: event.target.value });
     };
-
     return (
         <main>
             <section className="flex flex-col items-center justify-center h-screen">
