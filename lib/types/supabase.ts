@@ -12,16 +12,19 @@ export type Database = {
       Cursos: {
         Row: {
           curso_id: string
+          key: string | null
           nombreCurso: string
           profesor_ID: string | null
         }
         Insert: {
           curso_id?: string
+          key?: string | null
           nombreCurso: string
           profesor_ID?: string | null
         }
         Update: {
           curso_id?: string
+          key?: string | null
           nombreCurso?: string
           profesor_ID?: string | null
         }
@@ -71,6 +74,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "public_Matriculas_estudiante_id_fkey"
+            columns: ["estudiante_id"]
+            isOneToOne: false
+            referencedRelation: "Usuarios"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "public_Matriculas_grupo_id_fkey"
             columns: ["grupo_id"]
             isOneToOne: false
@@ -79,45 +89,27 @@ export type Database = {
           }
         ]
       }
-      Prueba: {
-        Row: {
-          Descripcion: string | null
-          id: number
-          Nombre: string
-        }
-        Insert: {
-          Descripcion?: string | null
-          id?: number
-          Nombre: string
-        }
-        Update: {
-          Descripcion?: string | null
-          id?: number
-          Nombre?: string
-        }
-        Relationships: []
-      }
       Usuarios: {
         Row: {
           cedula: number | null
           correo: string
           id: string
           nombre_completo: string | null
-          rol: string | null
+          role: string
         }
         Insert: {
           cedula?: number | null
           correo: string
           id?: string
           nombre_completo?: string | null
-          rol?: string | null
+          role?: string
         }
         Update: {
           cedula?: number | null
           correo?: string
           id?: string
           nombre_completo?: string | null
-          rol?: string | null
+          role?: string
         }
         Relationships: [
           {
