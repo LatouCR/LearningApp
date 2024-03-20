@@ -1,12 +1,13 @@
 import Link from "next/link";
 import CerrarSesion from "./CerrarSesion";
+import CursoNav from "@/components/CursoNav"
 import { LayoutDashboard, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle, LogOut } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const SideNav = () => {
 
     return (
-        <aside className="flex-1 flex flex-col fixed top-0 left-0 h-screen w-[12.5rem] z-10 bg-background content-between">
+        <aside className="flex-1 flex flex-col fixed top-0 left-0 h-screen w-[12.5rem] z-20 bg-background content-between">
             <header className="flex flex-none border-b-2 border-solid shadow-black/50 w-full h-[105px]">
                 <span className="flex items-center justify-center w-full">
                     <Link href="/">
@@ -29,12 +30,7 @@ const SideNav = () => {
                         </Link>
                     </li>
                     <li className="w-full p-2 hover:bg-hover">
-                        <Link href="/cursos" className="gap-2 inline-flex items-center">
-                            <BookMarked size={24} />
-                            <h1 className="font-sm">
-                                Cursos
-                            </h1>
-                        </Link>
+                        <CursoNav/>
                     </li>
                     <li className="w-full p-2 hover:bg-hover">
                         <Link href="/calendario" className="gap-2 inline-flex items-center">

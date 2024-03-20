@@ -17,10 +17,10 @@ export default async function Home({ params }: { params: { cursoId: string } }) 
         <main>
 
             <header className="flex flex-none border-b border-gray-400 w-full h-[105px] bg-white">
-                <div className="px-10 py-8">
+                <div className="px-10 py-8 flex items-center">
                     {data && data.length > 0 && (
                         <>
-                            <h1 className="text-3xl font-medium">{data[0].nombreCurso}</h1>
+                            <h1 className="text-xl font-normal">1CO24-{data[0].curso_id.slice(0,4).toUpperCase()}G1 {data[0].nombreCurso.toUpperCase()}</h1>
                         </>
                     )}
                 </div>
