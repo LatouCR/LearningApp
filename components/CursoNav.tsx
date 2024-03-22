@@ -19,8 +19,8 @@ const CursoNav = () => {
         <div>
             <Sheet>
                 <SheetTrigger>
-                    <div className="gap-2 inline-flex items-center">
-                        <BookMarked size={24} />
+                    <div className="gap-2 inline-flex items-center py-1 px-0">
+                        <BookMarked size={28} />
                         <h1 className="font-sm">
                             Cursos
                         </h1>

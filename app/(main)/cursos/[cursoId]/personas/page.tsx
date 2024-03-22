@@ -7,7 +7,7 @@ interface GroupMembers {
   [key: string]: string[];
 }
 
-export default function Page(): JSX.Element {
+export default function Page(): React.JSX.Element {
   const [activeTab, setActiveTab] = useState<string>('Todos');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [students, setStudents] = useState<string[]>(['Lorenza Angeles Pino', 'Max Chacon Noguera']);

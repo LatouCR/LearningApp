@@ -15,9 +15,11 @@ const CerrarSesion = async () => {
     return (
         <form action={logout}>
             <Button 
-                className=' bg-transparent hover:bg-transparent gap-2 inline-flex items-center p-2'>
-                <LogOut size={24}/>
-                Cerrar Sesion
+                className='bg-transparent gap-2 inline-flex justify-start py-2 px-2 w-full items-start hover:bg-transparent'>
+                <LogOut size={28}/>
+                <h1 className="font-light text-base">
+                    Cerrar Sesion
+                </h1>                
             </Button>
         </form>
     )

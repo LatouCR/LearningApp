@@ -21,50 +21,50 @@ const SideNav = () => {
 
             <nav className="flex flex-col flex-1">
                 <ul className="py-4 text-white  w-full">
-                    <li className="w-full p-2 hover:bg-hover">
+                    <li className="w-full p-2 hover:bg-hover flex items-center">
                         <Link href="/dashboard" className="gap-2 inline-flex items-center">
-                            <LayoutDashboard size={24} />
-                            <h1 className="font-sm">
+                            <LayoutDashboard size={28} />
+                            <h1 className="font-light text-base">
                                 Dashboard
                             </h1>
                         </Link>
                     </li>
-                    <li className="w-full p-2 hover:bg-hover">
+                    <li className="w-full p-2 hover:bg-hover flex items-center">
                         <CursoNav/>
                     </li>
-                    <li className="w-full p-2 hover:bg-hover">
+                    <li className="w-full p-2 hover:bg-hover flex items-center">
                         <Link href="/calendario" className="gap-2 inline-flex items-center">
-                            <CalendarDays size={24} />
-                            <h1 className="font-sm">
+                            <CalendarDays size={28} />
+                            <h1 className="font-light text-base">
                                 Calendario
                             </h1>
                         </Link>
                     </li>
-                    <li className="w-full p-2 hover:bg-hover">
+                    <li className="w-full p-2 hover:bg-hover flex items-center">
                         <Link href="/mensajes" className="gap-2 inline-flex items-center">
-                            <Inbox size={24} />
-                            <h1 className="font-sm">
+                            <Inbox size={28} />
+                            <h1 className="font-light text-base">
                                 Mensajes
                             </h1>
                         </Link>
                     </li>
-                    <li className="w-full p-2 hover:bg-hover">
+                    <li className="w-full p-2 hover:bg-hover flex items-center">
                         <Link href="/herramientas" className="gap-2 inline-flex items-center">
-                            <PencilRuler size={24} />
-                            <h1 className="font-sm">
+                            <PencilRuler size={28} />
+                            <h1 className="font-light text-base">
                                 Herramientas
                             </h1>
                         </Link>
                     </li>
-                    <li className="w-full p-2 hover:bg-hover">
-                        <Link href="/help" className="gap-2 inline-flex items-center">
-                            <HelpCircle size={24} />
-                            <h1 className="font-sm">
+                    <li className="w-full p-2 hover:bg-hover flex items-center">
+                        <Link href="/help" className="gap-2 flex items-center">
+                            <HelpCircle size={28} />
+                            <h1 className="font-light text-base">
                                 Ayuda
                             </h1>
                         </Link>
                     </li>
-                    <li className="w-full py-1 hover:bg-hover">
+                    <li className="w-full p-1 hover:bg-hover">
                         <CerrarSesion/>    
                     </li>
 
