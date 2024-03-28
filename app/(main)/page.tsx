@@ -1,53 +1,140 @@
-import createSupabaseServerClient from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
+"use client"
+
 import Image from "next/image";
+import readUserSession from "@/lib/readUserSession";
+import { useRouter } from "next/navigation";
 
-export default async function Home() {
+
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay"
+
+import Link from "next/link";
+import { useEffect } from "react";
 
 
- const supabase = await createSupabaseServerClient();
-  const {data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect('/logIn')
-  }
+export default function Home() {
 
-  return (
-    <section className="flex flex-col w-screen min-h-screen max-w-full">
-        <div className="relative w-full bg-cover bg-center">
-            <Image src="/banner-ulacit.png" alt="Banner de ULACIT"
-                width={1720}
-                height={140}
-                className="opacity-90 bg-blend-luminosity"/>
-            <div className="absolute bottom-0 top-0 z-10 h-full w-full bg-gradient-to-b from-transparent from-70% via-black/50 to-black/80"></div>
-        </div>
+    const router = useRouter()
 
-        <div className="max-w-screen-xl mx-auto py-8">
-            <h1 className="text-5xl font-bold mb-4">Bienvenido a Learning en ULACIT</h1>
-            <div className="p-4 border border-gray-300 rounded-md mb-4">
-                <p className="text-lg text-justify overflow-auto">
-                    ULACIT ofrece a sus estudiantes y docentes un entorno de aprendizaje moderno, atractivo y accesible, utilizando la plataforma de educación en línea “Learning”. Por medio de esta herramienta, el aprendizaje en línea puede desarrollarse en un entorno sincrónico, con interacción instantánea; o asíncrono, como en el caso de debates entre estudiantes. Los estudiantes y profesores pueden ingresar y hacer uso de la plataforma por medio de dispositivos móviles, de tal forma que facilita soluciones de vanguardia que permiten desarrollar modos flexibles y escalables para la entrega de este servicio. 
-                </p>
-                <br />
-                <p className="text-lg text-justify overflow-auto">
-                    “Learning” es el proveedor de tecnología educativa más grande del mundo, garantía que nos permite contar con un soporte adecuado y justo a tiempo en caso de que ocurra cualquier incidente que afecte el servicio. A través de esta plataforma, ULACIT se suma a la comunidad internacional de instituciones de educación superior que tienen acceso a los recursos de información, sobre innovación y mejores prácticas en educación virtual, que comparten las universidades afiliadas alrededor del mundo. En el sitio web de Learning existe una amplia variedad de materiales de capacitación como los tutoriales y la ayuda en línea; y materiales dirigidos tanto para estudiantes como para docentes, disponibles en el idioma español.
-                </p>
-            </div>
+    const session = async () => {
+        const {data} = await readUserSession()
+        if (!data?.user) {
+            router.push('/logIn')
+          }
+    }
 
-            <div className="text-sm text-gray-600">
-            <h2 className="text-3xl mb-4">Sitios Relacionados</h2>
-            <ul className="list-disc pl-5 space-y-2">
-                <li><a href="https://www.office.com/" className="text-blue-500">Ingresá aquí a tu cuenta de correo ULACIT</a></li>
-                <li><a href="https://enrollogic.ulacit.ac.cr/#/login" className="text-blue-500">Enrollogic</a></li>
-                <li><a href="http://www.ulacit.ac.cr/" className="text-blue-500">Sitio Web de ULACIT</a></li>
-                <li><a href="https://www.facebook.com/ulacitcostarica/" className="text-blue-500">ULACIT en Facebook</a></li>
-                <li><a href="https://www.instagram.com/ulacitcr/?hl=es-la" className="text-blue-500">ULACIT en Instagram</a></li>
-                <li><a href="https://www.linkedin.com/school/ulacitcostarica/" className="text-blue-500">ULACIT en LinkedIn</a></li>
-                <li><a href="https://twitter.com/ulacitcostarica?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" className="text-blue-500">ULACIT en X/Twitter</a></li>
-            </ul>
-        </div>
-        </div>
+    useEffect(() => {
+        session()
+    }, [])
 
-    </section>
-);
+    return (
+
+        <main className="flex flex-col max-w-full min-h-screen w-screen">
+
+            <section className="flex flex-col w-screen h-auto max-w-full">
+                <div className="relative w-full bg-cover bg-center">
+                    <Image src="/banner-ulacit.png" alt="Banner de ULACIT"
+                        width={1720}
+                        height={140}
+                        quality={80}
+                        className="opacity-90 bg-blend-luminosity" />
+                    <div className="absolute bottom-0 top-0 z-10 h-full w-full bg-gradient-to-b from-transparent from-70% via-black/50 to-black/80"></div>
+                </div>
+
+                <div className="flex w-full mx-auto px-7 mt-7">
+                    <h1 className="text-2xl font-normal">
+                        Bienvenido a Learning Platform Ulacit
+                    </h1>
+                </div>
+
+            </section>
+
+            <section className="flex flex-col max-w-full w-screen p-7">
+                <span className="grid grid-cols-3 grid-rows-4 gap-4">
+                    <article className="p-4 rounded-md flex flex-col gap-1 col-span-1 row-span-1 bg-white">
+
+                    </article>
+
+
+                    <article className="p-6 rounded-md flex gap-1 col-span-2 row-span-4 bg-white drop-shadow-lg shadow-black">
+
+                        <div className="flex flex-col w-1/2 pr-4">
+
+                            <div className="border-b-2 border-slate-100 pb-4">
+                                <h1 className="text-3xl font-semibold">Learning Platform</h1>
+                            </div>
+
+                            <div className="py-4 text-xl">
+                                <p>ULACIT ofrece a sus estudiantes y docentes un entorno de aprendizaje  moderno, atractivo y accesible,
+                                    utilizando la plataforma de educación en  línea “Learning”. Por medio de esta herramienta, el
+                                    aprendizaje en línea puede desarrollarse en un entorno sincrónico, con  interacción instantánea;
+                                    o asíncrono, como en el caso de debates entre  estudiantes.
+                                </p>
+
+                                <br />
+
+                                <p>
+
+                                    Incluye una herramienta anti-plagio, que se usa para  promover la originalidad y crear oportunidades
+                                    que ayuden a los alumnos a  citar correctamente las fuentes, al parafrasear. Los estudiantes y
+                                    profesores pueden ingresar y hacer uso de la plataforma por medio de  dispositivos móviles,
+                                    de tal forma que facilita soluciones de vanguardia  que permiten desarrollar modos flexibles y
+                                    escalables para la entrega  de este servicio.
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+                        <div className="flex flex-col w-1/2">
+                            <Carousel
+                                plugins={[
+                                    Autoplay({
+                                        delay: 2000,
+                                    }),
+                                ]}
+                                className="my-auto max-h-[635px]">
+                                <CarouselContent className="my-auto">
+                                    <CarouselItem>
+                                        <img src="/stock1.jpg" className="rounded-sm h-full" />
+                                    </CarouselItem>
+                                    <CarouselItem>
+                                        <img src="/web.jpg" className="rounded-sm" />
+                                    </CarouselItem>
+                                    <CarouselItem>
+                                        <img src="/stock3.jpg" className="rounded-sm max-h-[635px] w-full" />
+                                    </CarouselItem>
+
+                                </CarouselContent>
+                            </Carousel>
+                        </div>
+
+                    </article>
+
+
+                    <article className="rounded-md flex flex-col gap-1 col-span-1 row-span-3 drop-shadow-md shadow-md shadow-black/40">
+                        <Link
+                            href="https://www.ulacit.ac.cr"
+                        >
+                            <img
+                                alt="Pagina web oficial de la Ulacit"
+                                src="/web.jpg"
+                                className="rounded-sm"
+                            />
+                        </Link>
+
+                    </article>
+
+
+                </span>
+
+
+            </section>
+
+
+        </main>
+
+    );
 }
 

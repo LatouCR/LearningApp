@@ -9,7 +9,7 @@ const CerrarSesion = async () => {
         "use server"
         const supabase = await createSupabaseServerClient();
         await supabase.auth.signOut();
-        return redirect("/");
+        redirect("/logIn");
     };
 
     return (

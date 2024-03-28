@@ -2,7 +2,7 @@ import createSupabaseServerClient from "@/lib/supabase/server";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-import { Info } from "lucide-react";
+import { Info, MessageSquareDot } from "lucide-react";
 import Image from "next/image";
 
 import {
@@ -21,7 +21,12 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-export default async function StudentForm() {
+
+
+
+export default async function CursoItem({ imageList }: {
+    imageList: string[]
+}) {
     const supabase = await createSupabaseServerClient();
 
     try {
@@ -35,7 +40,7 @@ export default async function StudentForm() {
         return (
             <div className="">
                 <article className="grid grid-cols-4">
-                    {data?.map(curso => (
+                    {data?.map((curso, index) => (
                         <Link
                             key={curso.key}
                             href={`/cursos/${curso.key}`}
@@ -47,11 +52,10 @@ export default async function StudentForm() {
                                 <CardHeader
                                     className="relative p-0 h-36 overflow-hidden bg-cover bg-center rounded-t-md">
                                     <img
-                                        src="/location.jpg"
-                                        alt="Curso Ulacit"
+                                        src={imageList[(index + 1) % imageList.length]} alt="Curso Ulacit"
                                         className="w-full"
                                     />
-                                    <div className="absolute z-10 h-full w-full bg-gradient-to-b from-transparent from-40% via-black/50 to-black/80"></div>
+                                    <div className="absolute z-10 h-full w-full bg-gradient-to-b from-transparent from-40% via-black/60 to-black/80"></div>
                                 </CardHeader>
                                 <CardContent
                                     className="px-4 py-2 overflow-hidden">
@@ -60,35 +64,43 @@ export default async function StudentForm() {
                                 </CardContent>
 
                                 <CardFooter
-                                    className="border-t border-black p-4 text-sm "
+                                    className="border-t border-black px-4 py-2 text-sm "
                                 >
-                                    <div className=" inline-flex items-center gap-3">
-                                        <p className="w-auto">Nombre del Profesor</p>
+                                    <div className=" inline-flex items-center w-full">
+                                        <p className="w-full">{curso.nombreProfesor}</p>
 
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <Info
-                                                        className="ml-6"
-                                                        size={18}
-                                                    />
-                                                </TooltipTrigger>
-                                                <TooltipContent
-                                                    className="bg-slate-900 rounded-none"
-                                                >
-                                                    <div className="p-4 flex-wrap text-white">
-                                                        <p className="text-lg pb-5 font-bold">Informacion del Curso</p>
-                                                        <p>Prof. {curso.profesor_ID?.slice(0, 8)}</p>
-                                                    </div>
+                                        <div className="inline-flex gap-3 mx-auto justify-end w-auto">
 
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
+                                            <TooltipProvider>
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <Info
+                                                            className="ml-6"
+                                                            size={18}
+                                                        />
+                                                    </TooltipTrigger>
+                                                    <TooltipContent
+                                                        className="bg-slate-900 rounded-none"
+                                                    >
+                                                        <div className="p-4 flex-wrap text-white">
+                                                            <p className="text-lg pb-5 font-bold">Informacion del Curso</p>
+                                                            <p>Prof. {curso.nombreProfesor}</p>
+                                                        </div>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
+
+                                            <MessageSquareDot
+                                                className="hover:text-background"
+                                                size={18}>
+                                                <Link href={`/cursos/${curso.key}/mensajes`}/>
+                                            </MessageSquareDot>
+
+                                        </div>
                                     </div>
                                 </CardFooter>
                             </Card>
                         </Link>
-
                     ))}
                 </article>
             </div>
@@ -98,8 +110,8 @@ export default async function StudentForm() {
     } catch (error) {
         console.log('Error message', error);
         return (
-            <div>
-                empty
+            <div className="flex container mx-auto w-full">
+                Error al cargar los cursos
             </div>
 
         )

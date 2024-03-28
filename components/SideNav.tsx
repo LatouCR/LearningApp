@@ -1,7 +1,7 @@
 import Link from "next/link";
 import CerrarSesion from "./CerrarSesion";
 import CursoNav from "@/components/CursoNav"
-import { LayoutDashboard, BookMarked, CalendarDays, Inbox, PencilRuler, HelpCircle, LogOut } from 'lucide-react';
+import { LayoutDashboard, CalendarDays, Inbox, PencilRuler, HelpCircle, School } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const SideNav = () => {
@@ -21,6 +21,14 @@ const SideNav = () => {
 
             <nav className="flex flex-col flex-1">
                 <ul className="py-4 text-white  w-full">
+                <li className="w-full p-2 hover:bg-hover flex items-center">
+                        <Link href="/" className="gap-2 inline-flex items-center">
+                            <School size={28} />
+                            <h1 className="font-light text-base">
+                                Institución
+                            </h1>
+                        </Link>
+                    </li>
                     <li className="w-full p-2 hover:bg-hover flex items-center">
                         <Link href="/dashboard" className="gap-2 inline-flex items-center">
                             <LayoutDashboard size={28} />

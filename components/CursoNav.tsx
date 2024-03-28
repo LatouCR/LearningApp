@@ -21,7 +21,7 @@ const CursoNav = () => {
                 <SheetTrigger>
                     <div className="gap-2 inline-flex items-center py-1 px-0">
                         <BookMarked size={28} />
-                        <h1 className="font-sm">
+                        <h1 className="font-light text-base">
                             Cursos
                         </h1>
                     </div>
@@ -82,15 +82,11 @@ const CursoNav = () => {
                         </div>
 
                         <SheetDescription className="pt-6">
-                            Bienvenido a tus cursos! Para acceder a la lista de todos tus cursos, haz click en el link de "Todos los Cursos" y selecciona los cursos que quieres ver.
+                            Bienvenido a tus cursos! Para acceder a la lista de todos tus cursos, haz click en el link de &ldquo;Todos los Cursos&rdquo; y selecciona los cursos que quieres ver.
                         </SheetDescription>
                     </SheetHeader>
                 </SheetContent>
             </Sheet>
-
-
-
-
         </div>
 
 
