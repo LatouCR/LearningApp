@@ -33,6 +33,13 @@ const NavBar: React.FC<NavBarProps> = ({ cursoId }) => {
                     </Link>
                 </li>
                 <li className="font-normal text-gray-600 hover:text-background h-full hover:border-b-2 hover:border-background/60">
+                    <Link href={`/cursos/${cursoId}/asignaciones`}
+                        className={isActive(`/cursos/${cursoId}/asignaciones`) ? 'text-black' : ''}
+                    >
+                        Asignaciones
+                    </Link>
+                </li>
+                <li className="font-normal text-gray-600 hover:text-background h-full hover:border-b-2 hover:border-background/60">
                     <Link href={`/cursos/${cursoId}/calificaciones`}
                         className={isActive(`/cursos/${cursoId}/calificaciones`) ? 'text-black' : ''}
                     >
