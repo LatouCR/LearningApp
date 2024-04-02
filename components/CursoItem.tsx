@@ -20,6 +20,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { redirect } from "next/navigation";
 
 
 
@@ -38,16 +39,17 @@ export default async function CursoItem({ imageList }: {
         console.table(data);
 
         return (
-            <div className="">
-                <article className="grid grid-cols-4">
+            <div className="my-5">
+                <article className="grid lg:grid-cols-4 sm:grid-cols-2 gap-2 gap-y-8">
                     {data?.map((curso, index) => (
-                        <Link
-                            key={curso.key}
-                            href={`/cursos/${curso.key}`}
-                            passHref
+                        <Card key={curso.curso_id}
+                            className="max-w-[375px] max-h-[284px] rounded-md border-none drop-shadow-lg hover:drop-shadow-2xl"
                         >
-                            <Card key={curso.curso_id}
-                                className="max-w-[375px] max-h-[284px] mr-4 my-4 rounded-md border-none drop-shadow-lg hover:drop-shadow-2xl"
+                            <Link
+                                key={curso.key}
+                                href={`/cursos/${curso.key}`}
+                                passHref
+                                className="w-fit h-fit"
                             >
                                 <CardHeader
                                     className="relative p-0 h-36 overflow-hidden bg-cover bg-center rounded-t-md">
@@ -63,44 +65,48 @@ export default async function CursoItem({ imageList }: {
                                     <CardTitle className="text-xl">{curso.nombreCurso}</CardTitle>
                                 </CardContent>
 
-                                <CardFooter
-                                    className="border-t border-black px-4 py-2 text-sm "
-                                >
-                                    <div className=" inline-flex items-center w-full">
-                                        <p className="w-full">{curso.nombreProfesor}</p>
+                            </Link>
 
-                                        <div className="inline-flex gap-3 mx-auto justify-end w-auto">
+                            <CardFooter
+                                className="border-t border-black px-4 py-2 text-sm "
+                            >
+                                <div className=" inline-flex items-center w-full">
+                                    <p className="w-full">{curso.nombreProfesor}</p>
 
-                                            <TooltipProvider>
-                                                <Tooltip>
-                                                    <TooltipTrigger asChild>
-                                                        <Info
-                                                            className="ml-6"
-                                                            size={18}
-                                                        />
-                                                    </TooltipTrigger>
-                                                    <TooltipContent
-                                                        className="bg-slate-900 rounded-none"
-                                                    >
-                                                        <div className="p-4 flex-wrap text-white">
-                                                            <p className="text-lg pb-5 font-bold">Informacion del Curso</p>
-                                                            <p>Prof. {curso.nombreProfesor}</p>
-                                                        </div>
-                                                    </TooltipContent>
-                                                </Tooltip>
-                                            </TooltipProvider>
+                                    <div className="inline-flex gap-3 mx-auto justify-end w-auto">
 
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <Info
+                                                        className="ml-6"
+                                                        size={18}
+                                                    />
+                                                </TooltipTrigger>
+                                                <TooltipContent
+                                                    className="bg-slate-800 rounded-none"
+                                                >
+                                                    <div className="flex-wrap text-white p-2">
+                                                        <h1 className="font-medium">Informacion del Curso</h1>
+                                                        <p>Prof. {curso.nombreProfesor}</p>
+                                                        <p>ID: {curso.curso_id.slice(0,12)}</p>
+                                                    </div>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+
+
+                                        <Link href={`/cursos/${curso.key}/mensajes`}>
                                             <MessageSquareDot
-                                                className="hover:text-background"
-                                                size={18}>
-                                                <Link href={`/cursos/${curso.key}/mensajes`}/>
-                                            </MessageSquareDot>
-
-                                        </div>
+                                                className="hover:text-background hover:fill-background/40"
+                                                size={18}
+                                            />
+                                        </Link>
                                     </div>
-                                </CardFooter>
-                            </Card>
-                        </Link>
+                                </div>
+                            </CardFooter>
+                        </Card>
+
                     ))}
                 </article>
             </div>
@@ -112,7 +118,7 @@ export default async function CursoItem({ imageList }: {
         return (
             <div className="flex container mx-auto w-full">
                 Error al cargar los cursos
-            </div>
+            </div>  
 
         )
     }

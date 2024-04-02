@@ -17,7 +17,7 @@ const NavBar: React.FC<NavBarProps> = ({ cursoId }) => {
 
     return (
         <nav className="w-full h-auto bg-white">
-            <ul className="flex w-full py-4 px-10 items-center gap-4">
+            <ul className="flex w-full py-5 px-10 items-center gap-4">
             <li className="font-normal text-gray-600 hover:text-background h-full hover:border-b-2 hover:border-background/60">
                     <Link href={`/cursos/${cursoId}`}
                         className={isActive(`/cursos/${cursoId}`) ? 'text-black' : ''}

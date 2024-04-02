@@ -37,7 +37,7 @@ export default async function Home({ params }: { params: { cursoId: string } }) 
 
             </header>
 
-            <section className="flex h-full px-10 py-8">
+            <section className="flex h-auto px-10 py-8">
 
                 <div className="flex flex-col gap-y-5 lg:w-1/5 min-w-[360px] sm:w-full">
 
