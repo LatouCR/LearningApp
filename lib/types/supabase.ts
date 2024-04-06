@@ -50,57 +50,42 @@ export type Database = {
       }
       Grupos: {
         Row: {
-          curso_id: string
+          curso: string
           grupo_id: string
           nombreGrupo: string
         }
         Insert: {
-          curso_id: string
+          curso: string
           grupo_id?: string
           nombreGrupo: string
         }
         Update: {
-          curso_id?: string
+          curso?: string
           grupo_id?: string
           nombreGrupo?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "public_Grupos_curso_id_fkey"
-            columns: ["curso_id"]
-            isOneToOne: false
-            referencedRelation: "Cursos"
-            referencedColumns: ["curso_id"]
-          },
-        ]
+        Relationships: []
       }
       Matriculas: {
         Row: {
-          curso_id: string | null
+          curso: string
           estudiante_id: string
           grupo_id: string | null
           matricula_id: string
         }
         Insert: {
-          curso_id?: string | null
+          curso: string
           estudiante_id: string
           grupo_id?: string | null
           matricula_id?: string
         }
         Update: {
-          curso_id?: string | null
+          curso?: string
           estudiante_id?: string
           grupo_id?: string | null
           matricula_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "public_Matriculas_curso_id_fkey"
-            columns: ["curso_id"]
-            isOneToOne: false
-            referencedRelation: "Cursos"
-            referencedColumns: ["curso_id"]
-          },
           {
             foreignKeyName: "public_Matriculas_estudiante_id_fkey"
             columns: ["estudiante_id"]
@@ -119,6 +104,7 @@ export type Database = {
       }
       RegistroTareas: {
         Row: {
+          archivo_key: string
           estudiante_id: string
           fecha_entrega: string
           id: number
@@ -126,6 +112,7 @@ export type Database = {
           tarea_id: number
         }
         Insert: {
+          archivo_key: string
           estudiante_id?: string
           fecha_entrega: string
           id?: number
@@ -133,6 +120,7 @@ export type Database = {
           tarea_id: number
         }
         Update: {
+          archivo_key?: string
           estudiante_id?: string
           fecha_entrega?: string
           id?: number

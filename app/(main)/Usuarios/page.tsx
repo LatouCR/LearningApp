@@ -11,9 +11,9 @@ import { Table, TableCell, TableRow } from '@/components/ui/table';
 
 interface UserInfo {
     id: string,
-    nombre_completo: string | null,
+    nombre_completo: string,
     correo?: string | undefined,
-    cedula: number | null,
+    cedula: number,
     password: string
 }
 
@@ -47,9 +47,9 @@ export default function Page() {
             } else {
                 setUserInfo({
                     id: user.id,
-                    nombre_completo: data.nombre_completo,
+                    nombre_completo: data.nombre_completo!,
                     correo: data.correo,
-                    cedula: data.cedula,
+                    cedula: data.cedula!,
                     password: ''
                 });
                 if (data.profile_pic) {

@@ -38,16 +38,21 @@ interface GroupInfo {
     id: string,
     nombre_completo: string | null,
     role: string
+    nombreGrupo: string | null,
+    grupo_id: string | null
+}
+
+interface GruopInterface {
+    grupo_id: string,
     nombreGrupo: string,
-    grupo_id: string | null,
-    student_id: string,
+    curso: string,
 }
 
 const Groups: React.FC<GroupProps> = ({ cursoId }) => {
     const [members, setMembers] = useState<GroupInfo[]>([]);
     const supabase = useSupabaseClient();
     const [groupName, setGroupName] = useState('');
-    const [groups, setGroups] = useState<GroupInfo[]>([]); 
+    const [groups, setGroups] = useState<GruopInterface[]>([]); 
     const [userRole, setUserRole] = useState('');
 
     useEffect(() => {
@@ -123,7 +128,7 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
           estudiantesCurso.some(estudiante => estudiante.estudiante_id === user.id)
         ).map(user => ({
           id: user.id,
-          nombre_completo: user.nombre_completo,
+          nombre_completo: user.nombre_completo || "",
           role: user.role,
           nombreGrupo: null,
           grupo_id: null,
@@ -248,7 +253,7 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
             <div>
                 <Accordion type="single" collapsible className="w-full">
                     {groups.map(group => (
-                        <AccordionItem className="mt-2" key={group.grupo_id} value={group.grupo_id}>
+                        <AccordionItem className="mt-2" key={group.grupo_id} value={group.grupo_id!}>
                             <AccordionTrigger>{group.nombreGrupo}</AccordionTrigger>
                             <AccordionContent>
                                 <div>
@@ -270,7 +275,7 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
                                                     <TableCell>{filteredMember.nombre_completo}</TableCell>
                                                     <TableCell>
                                                         {(userRole === "Profesor" || userRole === "user") && filteredMember.grupo_id === null && (
-                                                            <Button className="w-[100%]" style={{backgroundColor: "green"}} onClick={() => addToGroup(filteredMember.id, group.grupo_id)}>Agregar</Button>
+                                                            <Button className="w-[100%]" style={{backgroundColor: "green"}} onClick={() => addToGroup(filteredMember.id, group.grupo_id!)}>Agregar</Button>
                                                         )}
                                                     </TableCell>
                                                     <TableCell>
