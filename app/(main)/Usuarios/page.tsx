@@ -1,16 +1,20 @@
 'use client'
 import { useEffect, useState, useRef } from 'react';
-import Image from 'next/image';
 import useSupabaseClient from '@/lib/supabase/client';
 import { useToast } from "@/components/ui/use-toast";
-import ProfileImageHandler from '@/components/ProfileImageHandler'; 
+import ProfileImageHandler from '@/components/ProfileImageHandler';
+import { Pencil } from 'lucide-react';
+import Image from 'next/image';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Table, TableCell, TableRow } from '@/components/ui/table';
+
 
 interface UserInfo {
-  id: string,
-  nombre_completo: string | null,
-  correo?: string | undefined,
-  cedula: number | null,
-  password: string
+    id: string,
+    nombre_completo: string | null,
+    correo?: string | undefined,
+    cedula: number | null,
+    password: string
 }
 
 export default function Page() {
@@ -21,7 +25,7 @@ export default function Page() {
     const [isEditing, setIsEditing] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const fileInput = useRef<HTMLInputElement>(null);
-    const [fileName, setFileName] = useState(""); 
+    const [fileName, setFileName] = useState("");
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -31,18 +35,18 @@ export default function Page() {
                 return;
             }
             const user = response.data.user;
-    
+
             const { data, error } = await supabase
                 .from('Usuarios')
                 .select('*')
                 .eq('id', user.id)
                 .single();
-    
+
             if (error) {
                 console.error('Error obteniendo información del usuario:', error);
             } else {
                 setUserInfo({
-                    id: user.id, 
+                    id: user.id,
                     nombre_completo: data.nombre_completo,
                     correo: data.correo,
                     cedula: data.cedula,
@@ -53,38 +57,38 @@ export default function Page() {
                 }
             }
         };
-    
+
         fetchUserData();
     }, [supabase]);
 
     const toggleEdit = () => {
         setIsEditing(!isEditing); // Alternar el estado de edición
     };
-    
+
 
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = event.target;
-      setUserInfo((prevUserInfo) => {
-          if (!prevUserInfo) return undefined;
-  
-          return {
-              ...prevUserInfo,
-              [name]: value === '' ? null : value,
-          };
-      });
-  };
+        const { name, value } = event.target;
+        setUserInfo((prevUserInfo) => {
+            if (!prevUserInfo) return undefined;
+
+            return {
+                ...prevUserInfo,
+                [name]: value === '' ? null : value,
+            };
+        });
+    };
 
     const handleProfilePicChange = async (event: any) => {
         const file = event.target.files?.[0];
         if (!file) return;
-        
+
         const newFileName = `profile_pics/${Date.now()}-${file.name}`;
-    
+
         try {
             const { error } = await supabase.storage.from('profile_pic').upload(newFileName, file);
             if (error) throw error;
-    
+
             setFileName(newFileName); // Almacenar el nombre del archivo
             toast({ title: "Éxito", description: "Imagen de perfil cargada con éxito." });
         } catch (error) {
@@ -97,7 +101,7 @@ export default function Page() {
         const { error } = await supabase.auth.updateUser({
             password: newPassword
         });
-    
+
         if (error) {
             console.error('Error al cambiar la contraseña:', error);
         } else {
@@ -105,83 +109,156 @@ export default function Page() {
     };
 
     const handleSave = async () => {
-      if (isEditing && userInfo) {
-          const updates = {
-              nombre_completo: userInfo.nombre_completo,
-              correo: userInfo.correo,
-              cedula: userInfo.cedula,
-              profile_pic: fileName // Usar el nombre del archivo aquí
-          };
-  
-          try {
-              const { error } = await supabase.from('Usuarios').update(updates).eq('id', userInfo.id);
-              if (error) throw error;
-  
-              console.log('Información del usuario actualizada con éxito.');
-              toast({ title: "Éxito", description: "Información del usuario actualizada correctamente." });
-          } catch (error) {
-              console.error('Error al actualizar la información del usuario:', error);
-              toast({ title: "Error", description: "No se pudo actualizar la información del usuario." });
-          }
-  
-          setIsEditing(false);
-      }
-  };
+        if (isEditing && userInfo) {
+            const updates = {
+                nombre_completo: userInfo.nombre_completo,
+                correo: userInfo.correo,
+                cedula: userInfo.cedula,
+                profile_pic: fileName // Usar el nombre del archivo aquí
+            };
+
+            try {
+                const { error } = await supabase.from('Usuarios').update(updates).eq('id', userInfo.id);
+                if (error) throw error;
+
+                console.log('Información del usuario actualizada con éxito.');
+                toast({ title: "Éxito", description: "Información del usuario actualizada correctamente." });
+            } catch (error) {
+                console.error('Error al actualizar la información del usuario:', error);
+                toast({ title: "Error", description: "No se pudo actualizar la información del usuario." });
+            }
+
+            setIsEditing(false);
+        }
+    };
 
     return (
         <main>
-            <section className="flex flex-col items-center justify-center h-full">
-                <div className="w-48 h-48 relative">
-                    <ProfileImageHandler profilePicPath={profilePic} />
+            <section className="flex flex-col w-screen h-auto max-w-full overflow-hidden">
+                <div className="w-full bg-cover bg-center z-10 h-[105px] relative">
+                    <Image src="/banner-ulacit.png" alt="Banner de ULACIT"
+                        width={1720}
+                        height={140}
+                        quality={60}
+                        className="opacity-90 blur-xl w-auto h-auto" />
                 </div>
-                <h1 className="mt-4 font-bold text-center text-3xl">{userInfo?.nombre_completo}</h1>
-                <p className="mt-2 text-center text-xl">{userInfo?.correo}</p>
-                <p className="mt-8 text-left w-full max-w-2xl font-bold text-2xl">Información general</p>
-                <div className="mt-4 p-4 border rounded w-full max-w-2xl grid grid-cols-2 gap-4">
-                    <div className="text-left font-bold">Nombre:</div>
-                    <div className="text-left">{isEditing ? <input type="text" name="nombre_completo" value={userInfo?.nombre_completo} onChange={handleInputChange} /> : <span>{userInfo?.nombre_completo}</span>}</div>
-                    <div className="text-left font-bold">Cédula del estudiante:</div>
-                    <div className="text-left">{isEditing ? <input type="text" name="cedula" value={userInfo?.cedula} onChange={handleInputChange} /> : <span>{userInfo?.cedula}</span>}</div>
-                    <div className="text-left font-bold">Correo:</div>
-                    <div className="text-left">{isEditing ? <input type="text" name="correo" value={userInfo?.correo} onChange={handleInputChange} /> : <span>{userInfo?.correo}</span>}</div>
-                    <div className="text-left font-bold">Contraseña:</div>
-                    <div className="text-left">
-                        {isEditing ? 
-                            <div>
-                                <div>
-                                    <input type={showPassword ? "text" : "password"} name="password" value={userInfo?.password} onChange={handleInputChange} />
-                                </div>
-                                <div>
-                                    <input type="checkbox" checked={showPassword} onChange={() => setShowPassword(!showPassword)} /> Mostrar contraseña
-                                </div>
-                            </div>
-                            : 
-                            <span>******</span>
-                        }
+
+                <div className='flex items-center justify-center'>
+                    <div className="w-40 h-40 rounded-full bg-slate-100 absolute z-20 mt-10 items-center justify-center flex">
+                        <div className='rounded-full w-36 h-36'>
+                            <Avatar className='w-full h-full border border-slate-200'>
+                                <ProfileImageHandler profilePicPath={profilePic} />
+                            </Avatar>
+                        </div>
                     </div>
-                    <input 
-                        type="file" 
-                        ref={fileInput} 
-                        onChange={handleProfilePicChange} 
-                        style={{ display: 'none' }} 
-                    />
-                    {isEditing && (
-                        <button 
-                            className={`mt-2 self-end col-span-2 text-white bg-blue-500 rounded-full`}
-                            onClick={() => fileInput.current?.click()}
-                        >
-                            Cambiar imagen de perfil
-                        </button>
-                    )}
+
+                    {isEditing &&
+                        <div className='bg-white w-10 h-10 absolute z-40 rounded-full ml-28 mt-32 flex items-center justify-center'>
+
+                            <Pencil
+                                size={26}
+                                className='hover:cursor-pointer hover:text-background text-gray-400'
+                                onClick={() => fileInput.current?.click()}
+                            />
+                        </div>
+                    }
+
+                </div>
+            </section>
+
+            <section className='w-full h-full flex flex-col items-center justify-center mt-10'>
+                <div className='z-20 items-center justify-center text-center flex flex-col'>
+                    <h1 className="font-bold text-center text-2xl">{userInfo?.nombre_completo}</h1>
+                    <span className="text-center text-lg">{userInfo?.correo}</span>
+                </div>
+
+                <div className='flex flex-col items-center justify-center max-w-4xl w-full'>
+
+                    <h1 className='text-xl font-bold my-4'>
+                        Informacion General:
+                    </h1>
+
+                    <Table className='border border-slate-200 bg-white'>
+                        <TableRow className='border border-slate-300'>
+                            <TableCell className='font-bold'>
+                                Nombre:
+                            </TableCell>
+                            <TableCell>
+                                {isEditing ?
+                                    <input type="text" name="nombre_completo" value={userInfo?.nombre_completo} onChange={handleInputChange} />
+                                    : <span>
+                                        {userInfo?.nombre_completo}
+                                    </span>}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow className='border border-slate-300'>
+                            <TableCell className='font-bold'>
+                                Cédula del estudiante:
+                            </TableCell>
+                            <TableCell>
+                                {isEditing ?
+                                    <input type="text" name="cedula" value={userInfo?.cedula} onChange={handleInputChange} /> :
+                                    <span>
+                                        {userInfo?.cedula}
+                                    </span>}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow className='border border-slate-300'>
+                            <TableCell className='font-bold'>
+                                Correo:
+                            </TableCell>
+                            <TableCell>
+                                {isEditing ?
+                                    <input type="text" name="cedula" value={userInfo?.correo} onChange={handleInputChange} /> :
+                                    <span>
+                                        {userInfo?.correo}
+                                    </span>}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow className='border border-slate-300'>
+                            <TableCell className='font-bold'>
+                                Contraseña:
+                            </TableCell>
+                            <TableCell>
+                                {isEditing ?
+                                    <div>
+                                        <div>
+                                            <input type={showPassword ? "text" : "password"} name="password" value={userInfo?.password} onChange={handleInputChange} />
+                                        </div>
+                                        <div>
+                                            <input type="checkbox" checked={showPassword} onChange={() => setShowPassword(!showPassword)} /> Mostrar contraseña
+                                        </div>
+                                    </div>
+                                    :
+                                    <span>******</span>
+                                }
+                            </TableCell>
+                        </TableRow>
+                    </Table>
+                </div>
+
+                <input
+                    type="file"
+                    ref={fileInput}
+                    onChange={handleProfilePicChange}
+                    style={{ display: 'none' }}
+                />
+                <div className='flex justify-center items-center w-full'>
                     <button
-                        className={`mt-2 self-end col-span-2 text-white ${isEditing ? 'bg-green-500 rounded-full' : 'bg-blue-500 rounded-full'}`}
+                        className={`m-2 text-white ${isEditing ? 'bg-green-600 rounded-sm p-2' : 'bg-blue-600 rounded-sm p-2 w-60'}`}
                         onClick={isEditing ? handleSave : toggleEdit}
                     >
                         {isEditing ? 'Guardar' : 'Editar'}
                     </button>
-
                 </div>
+
+
+
             </section>
+
+
+
+
         </main>
     );
 }

@@ -7,8 +7,8 @@ import { redirect } from "next/navigation";
 
 export default async function Modules({ params }: { params: { cursoId: string } }) {
 
-    const {data: ses} = await readUserSession();
-    if (!ses?.user){
+    const { data: ses } = await readUserSession();
+    if (!ses?.user) {
         redirect("/logIn")
     }
 
@@ -23,7 +23,7 @@ export default async function Modules({ params }: { params: { cursoId: string } 
     return (
         <main>
 
-<header className="flex w-full h-auto flex-wrap shadow-black/40 shadow sm:bg-zinc-800 lg:bg-white">
+            <header className="flex w-full h-auto flex-wrap shadow-black/40 shadow sm:bg-zinc-800 lg:bg-white">
                 <div className="px-10 pt-8 pb-6 flex items-center border-b border-gray-400 w-full sm:text-white lg:text-background sm:justify-center lg:justify-start">
                     {data && data.length > 0 && (
                         <span>
@@ -33,10 +33,10 @@ export default async function Modules({ params }: { params: { cursoId: string } 
                     )}
                 </div>
 
-                <CourseActions cursoId={cursoId}/>
+                <CourseActions cursoId={cursoId} />
 
             </header>
-            
+
             <section className="flex items-center justify-center h-screen">
                 <p>Aqui van los modulos</p>
             </section>

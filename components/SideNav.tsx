@@ -1,8 +1,8 @@
 import Link from "next/link";
-import CerrarSesion from "./CerrarSesion";
+import CerrarSesion from "@/components/CerrarSesion";
+import User from "@/components/User";
 import CursoNav from "@/components/CursoNav"
 import { LayoutDashboard, CalendarDays, Inbox, PencilRuler, HelpCircle, School } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const SideNav = () => {
 
@@ -21,7 +21,7 @@ const SideNav = () => {
 
             <nav className="flex flex-col flex-1">
                 <ul className="py-4 text-white  w-full">
-                <li className="w-full p-2 hover:bg-hover flex items-center">
+                    <li className="w-full p-2 hover:bg-hover flex items-center">
                         <Link href="/" className="gap-2 inline-flex items-center">
                             <School size={28} />
                             <h1 className="font-light text-base">
@@ -38,7 +38,7 @@ const SideNav = () => {
                         </Link>
                     </li>
                     <li className="w-full p-2 hover:bg-hover flex items-center">
-                        <CursoNav/>
+                        <CursoNav />
                     </li>
                     <li className="w-full p-2 hover:bg-hover flex items-center">
                         <Link href="/calendario" className="gap-2 inline-flex items-center">
@@ -73,22 +73,16 @@ const SideNav = () => {
                         </Link>
                     </li>
                     <li className="w-full p-1 hover:bg-hover">
-                        <CerrarSesion/>    
+                        <CerrarSesion />
                     </li>
 
                 </ul>
             </nav>
 
-
-            <div className="inline-flex items-center w-full mt-auto p-4">
-                <Avatar>
-                    <AvatarImage src="" />
-                    <AvatarFallback>GU</AvatarFallback>
-                </Avatar>
-                <div className="px-2 text-white">
-                    Usuario
-                </div>
-            </div>
+            <Link
+                href="/Usuarios">
+                <User />
+            </Link>
 
         </aside>
     );
