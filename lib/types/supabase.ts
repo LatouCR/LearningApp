@@ -9,6 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      Asistencia: {
+        Row: {
+          cedula: number | null
+          correo: string
+          id: string
+          nombre_completo: string | null
+        }
+        Insert: {
+          cedula?: number | null
+          correo: string
+          id?: string
+          nombre_completo?: string | null
+        }
+        Update: {
+          cedula?: number | null
+          correo?: string
+          id?: string
+          nombre_completo?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_Asistencia_correo_fkey"
+            columns: ["correo"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["email"]
+          },
+          {
+            foreignKeyName: "public_Asistencia_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Cursos: {
         Row: {
           curso_id: string
@@ -104,27 +140,42 @@ export type Database = {
       }
       RegistroTareas: {
         Row: {
-          archivo_key: string
+          archivo_key: string | null
+          comentario_est: string | null
+          comentario_prof: string | null
           estudiante_id: string
           fecha_entrega: string
           id: number
           pendiente: boolean
+          puntos_obtenidos: number | null
+          reclamo_closed: boolean
+          reclamo_open: boolean
           tarea_id: number
         }
         Insert: {
-          archivo_key: string
+          archivo_key?: string | null
+          comentario_est?: string | null
+          comentario_prof?: string | null
           estudiante_id?: string
           fecha_entrega: string
           id?: number
           pendiente?: boolean
+          puntos_obtenidos?: number | null
+          reclamo_closed?: boolean
+          reclamo_open?: boolean
           tarea_id: number
         }
         Update: {
-          archivo_key?: string
+          archivo_key?: string | null
+          comentario_est?: string | null
+          comentario_prof?: string | null
           estudiante_id?: string
           fecha_entrega?: string
           id?: number
           pendiente?: boolean
+          puntos_obtenidos?: number | null
+          reclamo_closed?: boolean
+          reclamo_open?: boolean
           tarea_id?: number
         }
         Relationships: [

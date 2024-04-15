@@ -125,7 +125,7 @@ const SingleAssignmentCard = ({ assignment }: AssignmentProps) => {
         }
 
         if (!fileKey) {
-            console.error('No se ha subido ningún archivo.');
+            alert("Error dentro de filekey")
             return;
         }
 
@@ -152,9 +152,10 @@ const SingleAssignmentCard = ({ assignment }: AssignmentProps) => {
                 throw error;
             }
 
-            console.log('Tarea entregada con éxito.');
+            alert("Tarea entregada con exito")
             setFileKey(''); // Restablecer fileKey a una cadena vacía después de entregar
         } catch (error) {
+            alert("Error al entregar la tarea")
             console.error('Error al entregar la tarea:', error);
         }
     };
@@ -255,9 +256,7 @@ const SingleAssignmentCard = ({ assignment }: AssignmentProps) => {
                         <div className="flex flex-col justify-end">
                             <Separator className="mt-4" />
                             {userRole === "Estudiante" && !isTaskSubmitted && (
-                                <SheetClose className="h-[45px] w-full mt-4">
                                     <Button className="h-[45px] w-full" style={{ backgroundColor: 'green' }} onClick={handleEntregar}>Entregar</Button>
-                                </SheetClose>
                             )}
                             <SheetClose className="h-[45px] w-full mt-4">
                                 <Button className="h-[45px] w-full" style={{ backgroundColor: 'red' }}>

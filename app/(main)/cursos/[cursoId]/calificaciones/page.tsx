@@ -2,6 +2,8 @@ import createSupabaseServerClient from "@/lib/supabase/server";
 import readUserSession from "@/lib/readUserSession";
 import CourseActions from "@/components/CourseActions";
 import { redirect } from "next/navigation";
+import ReclamoBtn from "@/components/Calificaciones/ReclamoBtn";
+import Tareas from "@/components/Calificaciones/Tareas";
 
 export default async function Grades({ params }: { params: { cursoId: string } }) {
 
@@ -35,14 +37,9 @@ export default async function Grades({ params }: { params: { cursoId: string } }
 
             </header>
 
-            <section className="flex items-center justify-center h-screen">
-
+            <section className="flex flex-col h-auto px-10 py-[18px]">
                 <div>
-
-                </div>
-
-                <div>
-
+                    <Tareas cursoId={cursoId}/>
                 </div>
 
             </section>

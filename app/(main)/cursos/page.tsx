@@ -1,6 +1,6 @@
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import CursoItem from "./CourseData";
+import CursoItem from "@/components/CourseData";
 
 
 
