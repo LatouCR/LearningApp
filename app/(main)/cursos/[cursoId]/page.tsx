@@ -2,8 +2,10 @@ import createSupabaseServerClient from "@/lib/supabase/server";
 import readUserSession from "@/lib/readUserSession";
 import CourseActions from "@/components/CourseActions";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
-import { UsersRound, TextSelect, Wrench } from "lucide-react";
+
+import { UsersRound, TextSelect, Wrench, Youtube, Instagram, Twitter } from "lucide-react";
 
 export default async function Home({ params }: { params: { cursoId: string } }) {
 
@@ -32,9 +34,7 @@ export default async function Home({ params }: { params: { cursoId: string } }) 
                         </span>
                     )}
                 </div>
-
                 <CourseActions cursoId={cursoId} />
-
             </header>
 
             <section className="flex h-auto px-10 py-8">
@@ -43,14 +43,14 @@ export default async function Home({ params }: { params: { cursoId: string } }) 
 
                     <div className="w-full border-b-2 border-gray-400 h-fit">
                         <h1 className=" text-2xl pb-3">
-                            Course Faculty
+                            Facultad del Curso
                         </h1>
                     </div>
 
                     <article className="w-full rounded h-28 lg:bg-white sm:bg-transparent lg:drop-shadow-md lg:shadow sm:drop-shadow-none sm:shadow-none">
                         <div className="inline-flex p-4 mx-auto h-full items-center gap-4">
                             <div className="rounded-full bg-black h-16 w-16 flex items-center justify-center">
-                                <p className="text-white">AV</p>
+                                {data && data.length > 0 && <p className="text-white">{data[0].nombreProfesor?.slice(0, 2).toUpperCase()}</p>}
                             </div>
 
                             <div className="flex flex-col gap-1">
@@ -64,7 +64,7 @@ export default async function Home({ params }: { params: { cursoId: string } }) 
 
                     <div className="w-full border-b-2 border-gray-400 h-fit">
                         <h1 className=" text-2xl pb-3">
-                            Details & Actions
+                            Detalles & Acciones
                         </h1>
                     </div>
 
@@ -78,16 +78,20 @@ export default async function Home({ params }: { params: { cursoId: string } }) 
                         <div className="inline-flex gap-2 items-center">
                             <UsersRound size={40} strokeWidth={1.5} />
                             <div className="flex my-auto flex-col">
-                                <h3 className="text-lg leading-3">Roster</h3>
-                                <p className="text-sm text-blue-500">View everyone in your course</p>
+                                <h3 className="text-lg leading-4">Personas</h3>
+                                <Link href="/cursos">
+                                    <p className="text-sm text-blue-500 hover:underline">Ver a todos del curso</p>
+                                </Link>
                             </div>
                         </div>
 
                         <div className="inline-flex gap-2 items-center">
                             <Wrench size={40} strokeWidth={1.5} />
                             <div className="flex my-auto flex-col">
-                                <h3 className="text-lg leading-3">Books & Tools</h3>
-                                <p className="text-sm text-blue-500">View course & institution tools</p>
+                                <h3 className="text-lg leading-4">Libros & Herramientas</h3>
+                                <Link href="/herramientas">
+                                    <p className="text-sm text-blue-500 hover:underline">Ver curso & herramientas de institucion</p>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -98,16 +102,16 @@ export default async function Home({ params }: { params: { cursoId: string } }) 
                 <div className="flex flex-col ml-12">
 
                     <div className="lg:4/5 sm:full pb-4 border-b-2 border-gray-200">
-                        <img src="https://placehold.co/1440x350" alt=""  className="rounded-lg drop-shadow-lg shadow shadow-black/40"/>
+                        <img src="/Welcome.jpg" alt="" className="rounded-lg drop-shadow-lg shadow shadow-black/40" />
                     </div>
 
 
                     <div className="py-6">
-                        <p>ULACIT offers its students and teachers a  modern, engaging, and accessible learning environment, using the online  education platform Canvas. Through this tool, online learning can take  place in a synchronous environment with instant interaction or  asynchronously, as in the case of debates between students. Students and  teachers can access and use the platform through mobile devices.</p>
+                        <p>ULACIT ofrece a sus estudiantes y profesores un entorno de aprendizaje moderno, atractivo y accesible, utilizando la plataforma de educación en línea Learning. A través de esta herramienta, el aprendizaje en línea puede tener lugar en un entorno síncrono con interacción instantánea o asíncrono, como en el caso de los debates entre estudiantes. Alumnos y profesores pueden acceder a la plataforma y utilizarla a través de dispositivos móviles.</p>
                         <br />
-                        <p>ULACIT has joined the international  community of higher education institutions that have access to  information resources, innovation, and best practices in virtual  education through the Canvas platform, shared by affiliated Universities  affiliated around the world.  The Instructure&apos;s website offers a wide  range of training materials, including webinars and explanatory videos  aimed at maximizing the platform&apos;s potential. Tutorials, online support,  and materials aimed at both students and teachers are available in  several languages, including English.</p>
+                        <p>ULACIT se ha unido a la comunidad internacional de instituciones de educación superior que tienen acceso a recursos de información, innovación y mejores prácticas en educación virtual a través de la plataforma Canvas, compartida por Universidades afiliadas de todo el mundo.El sitio web de Instructure&apos;s ofrece una amplia gama de materiales de formación, incluyendo seminarios web y vídeos explicativos destinados a maximizar el potencial de la plataforma&apos;s.Los tutoriales, el soporte en línea y los materiales dirigidos tanto a estudiantes como a profesores están disponibles en varios idiomas, incluido el inglés.</p>
                         <br />
-                        <p>We invite you to explore this platform  and get the most out of it for your courses. We wish you great success  in this new academic period.</p>
+                        <p>Le invitamos a explorar esta plataforma y a sacarle el máximo partido para sus cursos. Le deseamos mucho éxito en este nuevo periodo académico.</p>
 
                     </div>
 
@@ -116,17 +120,26 @@ export default async function Home({ params }: { params: { cursoId: string } }) 
                         <div className="inline-flex justify-end w-full items-center gap-2">
                             <p>Links Importantes</p>
 
-                            <div className="rounded-full h-10 w-10 bg-white">
+                            <div className="rounded-full h-10 w-10 bg-white flex items-center justify-center">
+                                <Link href="https://twitter.com/ulacitcostarica">
+                                    <Twitter fill="black"/>
+                                </Link>
 
                             </div>
 
-                            
-                            <div className="rounded-full h-10 w-10 bg-white">
+
+                            <div className="rounded-full h-10 w-10 bg-white flex items-center justify-center">
+                                <Link href="https://www.instagram.com/ulacitcr/?hl=es">
+                                    <Instagram />
+                                </Link>
 
                             </div>
 
-                            
-                            <div className="rounded-full h-10 w-10 bg-white">
+
+                            <div className="rounded-full h-10 w-10 bg-white flex items-center justify-center">
+                                <Link href="https://www.youtube.com/user/Ulacitcr">
+                                    <Youtube />
+                                </Link>
 
                             </div>
                         </div>

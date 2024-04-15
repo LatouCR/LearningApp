@@ -1,8 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import createSupabaseServerClient from "@/lib/supabase/server";
 import ProfileImageHandler from "@/components/ProfileImageHandler";
+import { cn } from "@/lib/utils"
 
-export default async function name() {
+type ComponentProps = {
+    className?: string
+}
+
+export default async function User({className}: ComponentProps) {
     const supabase = await createSupabaseServerClient()
     const response = await supabase.auth.getUser()
     if (!response.data.user) {
@@ -22,12 +27,12 @@ export default async function name() {
 
 
     return (
-        <div className="inline-flex items-center w-full mt-auto p-4">
-            <Avatar className="border border-white w-11 h-11">
+        <div className="inline-flex items-center w-full mt-auto">
+            <Avatar className={cn("max-w-16 max-h-16", className)}>
                 <ProfileImageHandler profilePicPath={profilePic || undefined} />
             </Avatar>
 
-            <div className="px-4     text-white">
+            <div className="px-4 text-inherit">
                 {data?.nombre_completo?.split(" ").slice(0, 2).join(" ")}
             </div>
         </div>

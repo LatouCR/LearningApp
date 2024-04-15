@@ -121,13 +121,13 @@ export default function TeacherLogin() {
                                     />
 
                                     <div className='w-full flex float-left my-9'>
-                                        <div className='text-white gap-3 flex justify-between'>
-                                            <Link href='/dashboard'
-                                                className='p-2 bg-slate-400 hover:bg-inherit/60 rounded-none h-9 w-28 flex justify-center items-center'>
-                                                <p className='text-black font-normal text-sm'>Volver</p>
+                                    <div className='text-white gap-3 flex justify-between'>
+                                            <Link href='/logIn'
+                                                className='p-2 bg-slate-400 hover:bg-slate-500 rounded-none h-9 w-28 flex justify-center items-center'>
+                                                <p className='text-white font-normal text-sm'>Volver</p>
                                             </Link>
                                             <Button
-                                                className='p-2 bg-blue-700 hover:bg-inherit/60 rounded-none h-9 w-28 font-light text-sm'
+                                                className='p-2 bg-blue-700 hover:bg-blue-500 rounded-none h-9 w-28 font-light text-sm'
                                                 type='submit'
                                             >
                                                 Iniciar Sesion

@@ -1,13 +1,19 @@
 import createSupabaseServerClient from "@/lib/supabase/server";
 import readUserSession from "@/lib/readUserSession";
+import AssignmentCard from "@/components/Asignaciones/Asignment";
 import CourseActions from "@/components/CourseActions";
+import AddAsignment from "@/components/Asignaciones/AddAsignment";
+import { Separator } from "@/components/ui/separator";
+import User from "@/components/User"
+
+
 import { redirect } from "next/navigation";
 
 
 export default async function Chats({ params }: { params: { cursoId: string } }) {
 
-    const {data: ses} = await readUserSession();
-    if (!ses?.user){
+    const { data: ses } = await readUserSession();
+    if (!ses?.user) {
         redirect("/logIn")
     }
 
@@ -31,13 +37,27 @@ export default async function Chats({ params }: { params: { cursoId: string } })
                         </span>
                     )}
                 </div>
-
                 <CourseActions cursoId={cursoId} />
-
             </header>
-            
-            <section className="flex items-center justify-center h-screen">
-                <p>Aqui van las asignaciones</p>
+
+            <section className="flex flex-col h-auto px-10 py-[18px]">
+                <div className="inline-flex justify-between items-center pb-[18px]">
+                    <article className="w-full">
+                        <User className={"w-16 h-16 border-2 border-slate-200"} />
+                    </article>
+
+                    <div>
+                        <AddAsignment cursoId={cursoId} />
+                    </div>
+
+                </div>
+
+                <Separator className="w-auto bg-[#DDDDDD]"/>
+
+                <div className="mt-5">
+                    <AssignmentCard cursoId={cursoId} />
+
+                </div>
             </section>
 
         </main>

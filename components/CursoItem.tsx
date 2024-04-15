@@ -20,10 +20,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { redirect } from "next/navigation";
-
-
-
 
 export default async function CursoItem({ imageList }: {
     imageList: string[]

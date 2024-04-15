@@ -80,8 +80,8 @@ const SideNav = () => {
             </nav>
 
             <Link
-                href="/Usuarios">
-                <User />
+                href="/Usuarios" className="px-4 py-2 text-white rounded-xl hover:bg-white/20">
+                <User className="border-2 border-white w-12 h-12"/>
             </Link>
 
         </aside>
