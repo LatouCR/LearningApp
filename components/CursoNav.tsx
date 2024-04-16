@@ -61,8 +61,12 @@ const CursoNav = async () => {
                         <div className="w-full text-wrap text-gray-500">
 
                             {cursos?.map((curso) => (
-                                <div className="py-2">
-                                    <Link href="/" key={curso.key}>
+                                <div className="py-2" key={curso.key}>
+                                    <Link
+                                    key={curso.key}
+                                    href={`/cursos/${curso.key}`}
+                                    passHref
+                                    >
                                         <h3 className="text-md font-normal hover:underline hover:text-gray-600">
                                             {curso.nombreCurso}
                                         </h3>

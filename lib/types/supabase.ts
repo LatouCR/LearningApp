@@ -11,39 +11,24 @@ export type Database = {
     Tables: {
       Asistencia: {
         Row: {
-          cedula: number | null
-          correo: string
+          estado: string | null
           id: string
           nombre_completo: string | null
+          Semana: string | null
         }
         Insert: {
-          cedula?: number | null
-          correo: string
+          estado?: string | null
           id?: string
           nombre_completo?: string | null
+          Semana?: string | null
         }
         Update: {
-          cedula?: number | null
-          correo?: string
+          estado?: string | null
           id?: string
           nombre_completo?: string | null
+          Semana?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "public_Asistencia_correo_fkey"
-            columns: ["correo"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["email"]
-          },
-          {
-            foreignKeyName: "public_Asistencia_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       Cursos: {
         Row: {
