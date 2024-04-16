@@ -1,7 +1,8 @@
+import createSupabaseServerClient from "@/lib/supabase/server"
+
 import {
     Sheet,
     SheetContent,
-    SheetClose,
     SheetDescription,
     SheetHeader,
     SheetTitle,
@@ -11,9 +12,24 @@ import {
 import { BookMarked } from "lucide-react"
 
 import Link from "next/link"
-import { Button } from "./ui/button"
 
-const CursoNav = () => {
+const CursoNav = async () => {
+
+    const supabase = await createSupabaseServerClient();
+
+    const response = await supabase.auth.getUser()
+    const user = response.data.user;
+    if (!user) return;
+    const { data } = await supabase
+        .from("Matriculas")
+        .select()
+        .eq('estudiante_id', user.id)
+
+    const {data: cursos} = await supabase
+    .from("Cursos")
+    .select('curso_id, key, nombreCurso')
+    .in('key', data?.map(key => key.curso) || [])
+
     return (
 
         <div>
@@ -44,41 +60,21 @@ const CursoNav = () => {
                         {/*TODO: Crear un  */}
                         <div className="w-full text-wrap text-gray-500">
 
-                            <div className="py-2">
-                                <h3 className="text-md font-normal hover:underline hover:text-gray-600">
-                                1CO24-130068G1 SISTEMAS DE SOPORTE A DECISIONES
-                                </h3>
-                                <p className="text-xs font-light text-gray-400">
-                                    1 CUATRIMESTRE DEL 2024
-                                </p>                                
-                            </div>
+                            {cursos?.map((curso) => (
+                                <div className="py-2">
+                                    <Link href="/" key={curso.key}>
+                                        <h3 className="text-md font-normal hover:underline hover:text-gray-600">
+                                            {curso.nombreCurso}
+                                        </h3>
+                                        <p className="text-xs font-light text-gray-400">
+                                            1 CUATRIMESTRE DEL 2024
+                                        </p>
+                                    </Link>
 
-                            <div className="py-2">
-                                <h3 className="text-md font-normal hover:underline hover:text-gray-600">
-                                1CO24-130068G1 SISTEMAS DE SOPORTE A DECISIONES
-                                </h3>
-                                <p className="text-xs font-light text-gray-400">
-                                    1 CUATRIMESTRE DEL 2024
-                                </p>                                
-                            </div>
+                                </div>
+                            ))}
 
-                            <div className="py-2">
-                                <h3 className="text-md font-normal hover:underline hover:text-gray-600">
-                                1CO24-130068G1 SISTEMAS DE SOPORTE A DECISIONES
-                                </h3>
-                                <p className="text-xs font-light text-gray-400">
-                                    1 CUATRIMESTRE DEL 2024
-                                </p>                                
-                            </div>
 
-                            <div className="py-2">
-                                <h3 className="text-md font-normal hover:underline hover:text-gray-600">
-                                1CO24-130068G1 SISTEMAS DE SOPORTE A DECISIONES
-                                </h3>
-                                <p className="text-xs font-light text-gray-400">
-                                    1 CUATRIMESTRE DEL 2024
-                                </p>                                
-                            </div>
                         </div>
 
                         <SheetDescription className="pt-6">

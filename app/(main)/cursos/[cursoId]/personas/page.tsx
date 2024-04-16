@@ -39,9 +39,7 @@ export default async function People({ params }: { params: { cursoId: string } }
             </span>
           )}
         </div>
-
         <CourseActions cursoId={cursoId} />
-
       </header>
 
 
