@@ -87,6 +87,7 @@ const AddAsignment: React.FC<Props> = ({ cursoId }) => {
             toast({
                 title: "Asignación creada con éxito",
                 description: "La asignación fue creada correctamente.",
+                variant: "success"
             });
             setTitulo('');
             setInstrucciones('');

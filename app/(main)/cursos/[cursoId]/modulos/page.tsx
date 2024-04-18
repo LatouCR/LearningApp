@@ -2,6 +2,8 @@ import createSupabaseServerClient from "@/lib/supabase/server";
 import readUserSession from "@/lib/readUserSession";
 import CourseActions from "@/components/CourseActions";
 import { redirect } from "next/navigation";
+import User from "@/components/User";
+import { Separator } from "@/components/ui/separator";
 
 
 
@@ -37,11 +39,23 @@ export default async function Modules({ params }: { params: { cursoId: string } 
 
             </header>
 
-            <section className="flex items-center justify-center h-screen">
-                <p>Aqui van los modulos</p>
+            <section className="flex flex-col h-auto px-10 py-[18px]">
+                <div className="inline-flex justify-between items-center pb-[18px]">
+                    <article className="w-full">
+                        <User className={"w-16 h-16 border-2 border-slate-200"} />
+                    </article>
+
+                    <div>
+                    </div>
+                </div>
+
+                <Separator className="w-auto bg-[#DDDDDD]" />
+
+                <div className="mt-5">
+
+                </div>
             </section>
 
         </main>
-
     );
 }

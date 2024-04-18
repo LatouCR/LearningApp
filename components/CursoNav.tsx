@@ -57,9 +57,7 @@ const CursoNav = async () => {
                             </Link>
                         </SheetTitle>
 
-                        {/*TODO: Crear un  */}
                         <div className="w-full text-wrap text-gray-500">
-
                             {cursos?.map((curso) => (
                                 <div className="py-2" key={curso.key}>
                                     <Link
@@ -74,7 +72,6 @@ const CursoNav = async () => {
                                             1 CUATRIMESTRE DEL 2024
                                         </p>
                                     </Link>
-
                                 </div>
                             ))}
 

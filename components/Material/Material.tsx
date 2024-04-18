@@ -9,20 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { format, parseISO } from 'date-fns';
 import { useToast } from "@/components/ui/use-toast";
+import { Materials } from '@/lib/types/types';
 
-interface MaterialProps {
-    assignment: {
-        id: number,
-        title: string,
-        end_time: Date,
-        instrucciones: string | null,
-        puntaje_asig: number | null,
-    },
-    userRole: string
-}
-
-
-const SingleAssignmentCard = ({ assignment }: MaterialProps) => {
+const SingleAssignmentCard = ({ assignment }: Materials) => {
     const { toast } = useToast();
     const supabase = useSupabaseClient();
     const fileInput = useRef<HTMLInputElement>(null);

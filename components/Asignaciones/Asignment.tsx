@@ -94,7 +94,8 @@ const SingleAssignmentCard = ({ assignment }: AssignmentProps) => {
             setFileKey(fileName); // Guardar la clave del archivo
             toast({
                 title: "Éxito",
-                description: "Archivo cargado con éxito."
+                description: "Archivo cargado con éxito.",
+                variant: "success"
             });
         } catch (error) {
             console.error('Error subiendo el archivo:', error);
@@ -125,7 +126,11 @@ const SingleAssignmentCard = ({ assignment }: AssignmentProps) => {
         }
 
         if (!fileKey) {
-            alert("Error dentro de filekey")
+            toast({
+                title: "Error al cargar el archivo",
+                description: "El archivo no pudo ser cargado con exito",
+                variant: "destructive"
+            });
             return;
         }
 
@@ -152,10 +157,18 @@ const SingleAssignmentCard = ({ assignment }: AssignmentProps) => {
                 throw error;
             }
 
-            alert("Tarea entregada con exito")
+            toast({
+                title: "Tarea entregada con exito",
+                description: "La tarea se ha registrado exitosamente",
+                variant: "success"
+            });
             setFileKey(''); // Restablecer fileKey a una cadena vacía después de entregar
         } catch (error) {
-            alert("Error al entregar la tarea")
+            toast({
+                title: "Error al entregar la tarea",
+                description: "El archivo no pudo ser enviado con exito",
+                variant: "destructive"
+            });
             console.error('Error al entregar la tarea:', error);
         }
     };
@@ -255,9 +268,11 @@ const SingleAssignmentCard = ({ assignment }: AssignmentProps) => {
                         </div>
                         <div className="flex flex-col justify-end">
                             <Separator className="mt-4" />
+                            <SheetClose>
                             {userRole === "Estudiante" && !isTaskSubmitted && (
                                     <Button className="h-[45px] w-full" style={{ backgroundColor: 'green' }} onClick={handleEntregar}>Entregar</Button>
                             )}
+                            </SheetClose>
                             <SheetClose className="h-[45px] w-full mt-4">
                                 <Button className="h-[45px] w-full" style={{ backgroundColor: 'red' }}>
                                     {userRole === "Estudiante" && !isTaskSubmitted ? "Cancelar" : "Cerrar"}

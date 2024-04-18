@@ -77,15 +77,16 @@ const AddAsignment: React.FC<Props> = ({ cursoId }) => {
             }]);
 
         if (error) {
-            console.error('Error al crear la asignación:', error);
+            console.error('Error al agregar el material:', error);
             toast({
-                title: "Error al crear la asignación",
+                title: "Error al agregar el material",
                 description: error.message,
+                className: "text-white"
             });
         } else {
-            console.log('Asignación creada con éxito:', data);
+            console.log('Material añadido con éxito:', data);
             toast({
-                title: "Asignación creada con éxito",
+                title: "Material añadid con éxito",
                 description: "La asignación fue creada correctamente.",
             });
             setTitulo('');
