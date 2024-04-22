@@ -9,9 +9,20 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { format, parseISO } from 'date-fns';
 import { useToast } from "@/components/ui/use-toast";
-import { Materials } from '@/lib/types/types';
 
-const SingleAssignmentCard = ({ assignment }: Materials) => {
+interface AssignmentProps {
+    assignment: {
+        id: number,
+        title: string,
+        end_time: Date,
+        instrucciones: string | null,
+        puntaje_asig: number | null,
+    },
+    userRole: string
+}
+
+
+const SingleAssignmentCard = ({ assignment }: AssignmentProps) => {
     const { toast } = useToast();
     const supabase = useSupabaseClient();
     const fileInput = useRef<HTMLInputElement>(null);
@@ -75,7 +86,7 @@ const SingleAssignmentCard = ({ assignment }: Materials) => {
         const fileName = `tareas/${Date.now()}-${file.name}`;
         try {
             const { error } = await supabase.storage
-                .from('archivos_tareas') // Cambiar Material
+                .from('archivos_tareas')
                 .upload(fileName, file);
 
             if (error) throw error;
@@ -83,7 +94,8 @@ const SingleAssignmentCard = ({ assignment }: Materials) => {
             setFileKey(fileName); // Guardar la clave del archivo
             toast({
                 title: "Éxito",
-                description: "Archivo cargado con éxito."
+                description: "Archivo cargado con éxito.",
+                variant: "success"
             });
         } catch (error) {
             console.error('Error subiendo el archivo:', error);
@@ -114,7 +126,11 @@ const SingleAssignmentCard = ({ assignment }: Materials) => {
         }
 
         if (!fileKey) {
-            console.error('No se ha subido ningún archivo.');
+            toast({
+                title: "Error al cargar el archivo",
+                description: "El archivo no pudo ser cargado con exito",
+                variant: "destructive"
+            });
             return;
         }
 
@@ -141,9 +157,18 @@ const SingleAssignmentCard = ({ assignment }: Materials) => {
                 throw error;
             }
 
-            console.log('Tarea entregada con éxito.');
+            toast({
+                title: "Tarea entregada con exito",
+                description: "La tarea se ha registrado exitosamente",
+                variant: "success"
+            });
             setFileKey(''); // Restablecer fileKey a una cadena vacía después de entregar
         } catch (error) {
+            toast({
+                title: "Error al entregar la tarea",
+                description: "El archivo no pudo ser enviado con exito",
+                variant: "destructive"
+            });
             console.error('Error al entregar la tarea:', error);
         }
     };
@@ -154,7 +179,7 @@ const SingleAssignmentCard = ({ assignment }: Materials) => {
     };
 
     return (
-        <div className='w-full h-16 bg-white flex border-x border-spacing-0 border-b border-gray-400 p-3'>
+        <div className='w-full h-16 bg-white flex border-x border-spacing-0 border-b border-gray-400 p-3 hover:bg-gray-100'>
 
             <div className='w-auto flex items-center pr-4 justify-start'>
                 <ScrollText size={38} strokeWidth={1.3} />
@@ -243,11 +268,11 @@ const SingleAssignmentCard = ({ assignment }: Materials) => {
                         </div>
                         <div className="flex flex-col justify-end">
                             <Separator className="mt-4" />
+                            <SheetClose>
                             {userRole === "Estudiante" && !isTaskSubmitted && (
-                                <SheetClose className="h-[45px] w-full mt-4">
                                     <Button className="h-[45px] w-full" style={{ backgroundColor: 'green' }} onClick={handleEntregar}>Entregar</Button>
-                                </SheetClose>
                             )}
+                            </SheetClose>
                             <SheetClose className="h-[45px] w-full mt-4">
                                 <Button className="h-[45px] w-full" style={{ backgroundColor: 'red' }}>
                                     {userRole === "Estudiante" && !isTaskSubmitted ? "Cancelar" : "Cerrar"}
