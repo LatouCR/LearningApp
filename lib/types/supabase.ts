@@ -87,6 +87,33 @@ export type Database = {
         }
         Relationships: []
       }
+      Material: {
+        Row: {
+          archivo_key: string | null
+          curso: string
+          date: string
+          descripcion: string
+          id: number
+          Title: string
+        }
+        Insert: {
+          archivo_key?: string | null
+          curso: string
+          date: string
+          descripcion: string
+          id?: number
+          Title: string
+        }
+        Update: {
+          archivo_key?: string | null
+          curso?: string
+          date?: string
+          descripcion?: string
+          id?: number
+          Title?: string
+        }
+        Relationships: []
+      }
       Matriculas: {
         Row: {
           curso: string

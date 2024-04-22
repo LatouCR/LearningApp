@@ -1,10 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 
 //components
 import useSupabaseClient from "@/lib/supabase/client";
-import DatePopover from '@/components/DatePopOver'
 
 //shadcn 
 import { Input } from "@/components/ui/input";
@@ -22,21 +21,20 @@ import {
     DialogClose
 } from "@/components/ui/dialog"
 
-import { Plus } from "lucide-react";
+import { Plus, UploadIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
     cursoId: string
 }
 
-const AddAsignment: React.FC<Props> = ({ cursoId }) => {
+const AddMaterial: React.FC<Props> = ({ cursoId }) => {
 
     const [titulo, setTitulo] = useState('');
-    const [instrucciones, setInstrucciones] = useState('');
-    const [fechaEntrega, setFechaEntrega] = useState(new Date());
-    const [puntajeAsig, setPuntajeAsig] = useState('');
+    const [descripcion, setDescripcion] = useState('');
     const { toast } = useToast();
-
+    const fileInput = useRef<HTMLInputElement>(null);
+    const [fileKey, setFileKey] = useState(''); // Estado para almacenar la clave del archivo
     const supabase = useSupabaseClient();
     const [userRole, setUserRole] = useState('');
 
@@ -59,21 +57,17 @@ const AddAsignment: React.FC<Props> = ({ cursoId }) => {
         fetchUserRole();
     }, [supabase]);
 
-    const agregarAsignacion = async () => {
+    const agregarMaterial = async () => {
         const startTime = new Date();
-        const endTime = fechaEntrega ? new Date(fechaEntrega) : new Date();
-        endTime.setHours(23, 59, 59);
 
         const { data, error } = await supabase
-            .from('Tareas')
+            .from('Material')
             .insert([{
-                title: titulo,
+                Title: titulo,
                 curso: cursoId,
-                start_time: startTime.toISOString(),
-                end_time: endTime.toISOString(),
-                instrucciones: instrucciones || null,
-                puntaje_asig: puntajeAsig ? parseInt(puntajeAsig) : null,
-                pendiente: true,
+                date: startTime.toISOString(),
+                descripcion: descripcion,
+                archivo_key: fileKey
             }]);
 
         if (error) {
@@ -90,9 +84,35 @@ const AddAsignment: React.FC<Props> = ({ cursoId }) => {
                 description: "La asignación fue creada correctamente.",
             });
             setTitulo('');
-            setInstrucciones('');
-            setFechaEntrega(new Date());
-            setPuntajeAsig('');
+            setDescripcion('');
+        }
+    };
+
+    //Se maneja la carga/subida del archivo
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const fileName = `material/${Date.now()}-${file.name}`;
+        try {
+            const { error } = await supabase.storage
+                .from('material')
+                .upload(fileName, file);
+
+            if (error) throw error;
+
+            setFileKey(fileName); // Guardar la clave del archivo
+            toast({
+                title: "Éxito",
+                description: "Archivo cargado con éxito.",
+                variant: "success"
+            });
+        } catch (error) {
+            console.error('Error subiendo el archivo:', error);
+            toast({
+                title: "Error",
+                description: "Error al subir el archivo."
+            });
         }
     };
 
@@ -111,7 +131,7 @@ const AddAsignment: React.FC<Props> = ({ cursoId }) => {
                 )}
                 <DialogContent className="bg-white">
                     <DialogHeader>
-                        <DialogTitle>Nueva Asignación</DialogTitle>
+                        <DialogTitle>Nuevo Material</DialogTitle>
                         <DialogDescription>
                             Ingrese los datos solicitados a continuación.
                         </DialogDescription>
@@ -120,7 +140,7 @@ const AddAsignment: React.FC<Props> = ({ cursoId }) => {
 
                     <div className="gap-4 flex flex-col">
                         <h1 className="font-semibold text-base">
-                            Título de la asignación:
+                            Título del Material:
                         </h1>
                         <Input className="bg-white" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
                         <Separator />
@@ -128,33 +148,33 @@ const AddAsignment: React.FC<Props> = ({ cursoId }) => {
 
                     <div className="gap-4 flex flex-col">
                         <h1 className="font-semibold text-base">
-                            Instrucciones:
+                            Descripcion:
                         </h1>
-                        <Textarea className="h-64 bg-white" value={instrucciones} onChange={(e) => setInstrucciones(e.target.value)} />
+                        <Textarea className="h-64 bg-white" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
                         <Separator />
                     </div>
 
-                    <div className="Date">
-                        <h1 className="font-semibold text-base">
-                            Fecha de entrega:
-                        </h1>
-                        <DatePopover selectedDate={fechaEntrega} setSelectedDate={setFechaEntrega} />
-                        <Separator />
-                    </div>
-
-                    <div className="gap-4 flex flex-col">
-                        <h1 className="font-semibold text-base">
-                            Puntaje total:
-                        </h1>
-                        <Input className="bg-white" type="number" value={puntajeAsig} onChange={(e) => setPuntajeAsig(e.target.value)} />
-                    </div>
+                    <input
+                        type="file"
+                        ref={fileInput}
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }}
+                    />
+                    <Button
+                        variant="outline"
+                        style={{ backgroundColor: 'white' }}
+                        onClick={() => fileInput.current?.click()}
+                    >
+                        <UploadIcon className="mr-2 h-4 w-4" />
+                        {fileKey !== null ? "Archivo Cargado" : "Subir Archivo"}
+                    </Button>
 
                     <DialogFooter>
                         <DialogClose>
                             <Button className="bg-green-700"
-                                onClick={agregarAsignacion}
+                                onClick={agregarMaterial}
                             >
-                                Crear Asignación
+                                Añadir Material
                             </Button>
                         </DialogClose>
                         <DialogClose>
@@ -169,4 +189,4 @@ const AddAsignment: React.FC<Props> = ({ cursoId }) => {
     );
 };
 
-export default AddAsignment;
+export default AddMaterial; 

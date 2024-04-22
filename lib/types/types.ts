@@ -1,10 +1,10 @@
 export interface Materials {
-    assignment: {
+    material: {
         id: number,
-        title: string,
-        end_time: Date,
-        instrucciones: string | null,
-        puntaje_asig: number | null,
+        Title: string,
+        curso: string,
+        date: Date,
+        descripcion: string
     },
-    userRole: string
+    cursoId: string
 }
