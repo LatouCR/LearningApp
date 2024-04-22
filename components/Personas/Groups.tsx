@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import useSupabaseClient from '@/lib/supabase/client';
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast";
+
 
 import {
     Table,
@@ -18,7 +20,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    DialogFooter,
+    DialogClose,
 } from "@/components/ui/dialog"
 import {
     Accordion,
@@ -54,6 +56,8 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
     const [groupName, setGroupName] = useState('');
     const [groups, setGroups] = useState<GruopInterface[]>([]); 
     const [userRole, setUserRole] = useState('');
+    const { toast } = useToast();
+
 
     useEffect(() => {
         const fetchUserRole = async () => {
@@ -94,10 +98,12 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
                 .insert([{ nombreGrupo: groupName, curso: cursoId }]);
             
             if (error) throw error;
-
-            console.log('Grupo creado:', data);
+            toast({
+                title: "Grupo creado exitosamente",
+                description: "Por favor recarge la pagina",
+                variant: "success"
+            });            
             setGroupName(''); // Limpiar el campo después de la creación
-            // Puedes agregar aquí acciones adicionales, como actualizar una lista de grupos
         } catch (error) {
             console.error('Error al crear el grupo:', error);
         }
@@ -195,6 +201,28 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
             console.error('Error al agregar al grupo:', error);
         }
     };
+    const deleteGroup = async (groupId: string) => {
+        try {
+            const { error } = await supabase
+                .from('Grupos')
+                .delete()
+                .eq('grupo_id', groupId);
+    
+            if (error) {
+                throw error;
+            }
+    
+            console.log(`Grupo con ID ${groupId} eliminado con éxito.`);
+            toast({
+                title: "Grupo eliminado",
+                description: `Grupo con ID ${groupId} eliminado con éxito.`,
+                variant: "success"
+            });
+            fetchGroupsAndMembers();  // Llamar a esta función para actualizar el estado y la UI después de eliminar
+        } catch (error) {
+            console.error('Error al eliminar el grupo:', error);
+        }
+    };
     const removeFromGroup = async (studentId : string) => {
         try {
             const { error } = await supabase
@@ -244,9 +272,9 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
                                 />
                             </div>
                         </div>
-                        <DialogFooter>
+                        <DialogClose>
                             <Button style={{backgroundColor: "green"}} onClick={createGroup}>Crear</Button>
-                        </DialogFooter>
+                        </DialogClose>
                     </DialogContent>
                 </Dialog>    
             </div>
@@ -262,7 +290,13 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
                                             <TableRow>
                                             <TableHead className="w-[50%]">Integrantes</TableHead>
                                             <TableHead className="text-right"></TableHead>
-                                            <TableHead className="text-right"></TableHead>
+                                            <TableHead className="text-right">
+                                                {(userRole === "Profesor" || userRole === "user") && (
+                                                    <Button className="w-[35%]" style={{ backgroundColor: "red" }} onClick={() => deleteGroup(group.grupo_id)}>
+                                                        Eliminar Grupo
+                                                    </Button>
+                                                )}
+                                            </TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -272,7 +306,7 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
                                                 </TableRow>
                                             ) : members.filter(member => member.role === "Estudiante" && (member.grupo_id === null || member.grupo_id === group.grupo_id)).map(filteredMember => (
                                                 <TableRow key={filteredMember.id}>
-                                                    <TableCell>{filteredMember.nombre_completo}</TableCell>
+                                                    <TableCell style={{ color: 'black', fontWeight: 'bold' }}>{filteredMember.nombre_completo}</TableCell>
                                                     <TableCell>
                                                         {(userRole === "Profesor" || userRole === "user") && filteredMember.grupo_id === null && (
                                                             <Button className="w-[100%]" style={{backgroundColor: "green"}} onClick={() => addToGroup(filteredMember.id, group.grupo_id!)}>Agregar</Button>
@@ -281,8 +315,8 @@ const Groups: React.FC<GroupProps> = ({ cursoId }) => {
                                                     <TableCell>
                                                         {(userRole === "Profesor" || userRole === "user") && filteredMember.grupo_id === group.grupo_id && (
                                                             <Button 
-                                                            className="w-[100%]" 
-                                                            variant="destructive" 
+                                                            className="w-[50%]" 
+                                                            style={{backgroundColor: "red"}}
                                                             onClick={() => removeFromGroup(filteredMember.id)}
                                                             >
                                                                 Remover

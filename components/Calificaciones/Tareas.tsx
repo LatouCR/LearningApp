@@ -2,6 +2,7 @@ import createSupabaseServerClient from "@/lib/supabase/server";
 import Link from "next/link";
 import ReclamoBtn from "./ReclamoBtn";
 import { format } from "date-fns";
+import CalificacionProfe from './CalificacionProfe';
 import {
     Table,
     TableBody,
@@ -11,6 +12,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { parseISO } from 'date-fns';
 
 interface TareasProps {
     cursoId: string;
@@ -28,6 +30,10 @@ const Tareas: React.FC<TareasProps> = async ({ cursoId }) => {
         .single();
 
     if (!user) return null;
+    const formatDate = (dateString: string) => {
+        if (!dateString) return 'Fecha no definida'; // O cualquier otro valor por defecto
+        return format(parseISO(dateString), 'dd/MM/yyyy');
+    };
 
 
     try {
@@ -36,11 +42,28 @@ const Tareas: React.FC<TareasProps> = async ({ cursoId }) => {
             .from("Tareas")
             .select("id, title, end_time, puntaje_asig, curso")
             .eq("curso", cursoId);
+            if (!tareasData) {
+                return <div>No hay datos de tareas disponibles.</div>;
+            }
 
-        const { data: registroTareasData } = await supabase
-            .from("RegistroTareas")
-            .select("*")
-            .eq("estudiante_id", user.id)
+            let registroTareasData: { archivo_key: string | null; comentario_est: string | null; comentario_prof: string | null; estudiante_id: string; fecha_entrega: string; id: number; pendiente: boolean; puntos_obtenidos: number | null; reclamo_closed: boolean; reclamo_open: boolean; tarea_id: number; }[] = [];
+
+            if (userData?.role === "Estudiante") {
+                const result = await supabase
+                    .from("RegistroTareas")
+                    .select("*")
+                    .eq("estudiante_id", user.id);
+                if (result.data) {
+                    registroTareasData = result.data;
+                }
+            } else if (userData?.role === "Profesor") {
+                const result = await supabase
+                    .from("RegistroTareas")
+                    .select("*");
+                if (result.data) {
+                    registroTareasData = result.data;
+                }
+            }
 
         console.table(registroTareasData)
         console.table(tareasData)
@@ -103,12 +126,7 @@ const Tareas: React.FC<TareasProps> = async ({ cursoId }) => {
                     </div>
                 )}
                 {(userData?.role === "Profesor" && (
-                    <>
-                        <div>
-                            a
-                        </div>
-                    </>
-
+                    <CalificacionProfe tareasData={tareasData} registroTareasData={registroTareasData} />
                 ))}
 
             </>

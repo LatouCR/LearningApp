@@ -107,25 +107,26 @@ const Asistencia: React.FC<GroupProps> = ({ cursoId }) => {
         });
     };
 
-    const saveAttendance = async () => {
-        try {
-            for (const { id, estado } of attendanceData) {
-                const { data, error } = await supabase
-                    .from('Asistencia')
-                    .insert({
-                        nombre_completo: filteredMembers.find((m) => m.id === id)?.nombre_completo,
-                        estado,
-                        Semana: selectedWeek,
-                    });
-                if (error) {
-                    console.error('Error saving attendance:', error);
-                }
-            }
-            console.log('Attendance saved successfully');
-        } catch (error) {
-            console.error('Error saving attendance:', error);
-        }
-    };
+const saveAttendance = async () => {
+  try {
+    for (const member of filteredMembers) {
+      const estadoParaMiembro = attendanceData.find((item) => item.id === member.id)?.estado || 'Ausente';
+      const { data, error } = await supabase
+        .from('Asistencia')
+        .insert({
+          nombre_completo: member.nombre_completo,
+          estado: estadoParaMiembro,
+          Semana: selectedWeek,
+        });
+      if (error) {
+        console.error('Error saving attendance:', error);
+      }
+    }
+    console.log('Attendance saved successfully');
+  } catch (error) {
+    console.error('Error saving attendance:', error);
+  }
+};
 
     // Filtro de miembros basado en la búsqueda y el rol seleccionado
     const filteredMembers = members?.filter(member => {
