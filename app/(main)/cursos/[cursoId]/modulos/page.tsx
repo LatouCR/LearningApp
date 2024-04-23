@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import User from "@/components/User";
 import { Separator } from "@/components/ui/separator";
 import AddMaterial from "@/components/Material/AddMaterial";
+import MaterialCard from "@/components/Material/Material";
 
 export default async function Modules({ params }: { params: { cursoId: string } }) {
 
@@ -45,13 +46,14 @@ export default async function Modules({ params }: { params: { cursoId: string } 
                     </article>
 
                     <div>
-                        <AddMaterial cursoId={cursoId}/>
+                        <AddMaterial cursoId={cursoId} />
                     </div>
                 </div>
 
                 <Separator className="w-auto bg-[#DDDDDD]" />
 
                 <div className="mt-5">
+                    <MaterialCard cursoId={cursoId}/>
                 </div>
             </section>
 
