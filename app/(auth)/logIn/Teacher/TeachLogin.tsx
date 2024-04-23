@@ -50,6 +50,7 @@ export default function TeacherLogin() {
                 console.log('Error message', error.message);
                 toast({
                     title: "Error al iniciar sesion",
+                    description: "Contraseña o Usuario incorrecto",
                     variant: "destructive",
                   })
                 reset({ password: '' });
